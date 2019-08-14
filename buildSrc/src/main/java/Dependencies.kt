@@ -34,6 +34,7 @@ object Libraries {
 object AndroidLibraries {
     // ANDROID
     val appCompat = "androidx.appcompat:appcompat:${Versions.appCompat}"
+
     val navigation = "androidx.navigation:navigation-ui-ktx:${Versions.nav}"
     val navigationFrag = "androidx.navigation:navigation-fragment-ktx:${Versions.nav}"
 }
