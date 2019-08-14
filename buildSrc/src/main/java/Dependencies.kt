@@ -23,12 +23,19 @@ object Versions {
     val appCompat = "1.1.0-alpha04"
     val nav = "2.0.0"
 
+    val room = "2.1.0-alpha06"
+
+    val gson = "2.8.5"
 }
 
 object Libraries {
     // KOIN
     val koin = "org.koin:koin-android:${Versions.koin}"
     val koinViewModel = "org.koin:koin-android-viewmodel:${Versions.koin}"
+    // ROOM
+    val roomRunTime = "androidx.room:room-runtime:${Versions.room}"
+    // GOOGLE
+    val gson = "com.google.code.gson:gson:${Versions.gson}"
 }
 
 object AndroidLibraries {

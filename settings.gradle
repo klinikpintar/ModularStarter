@@ -1,1 +1,1 @@
-include ':app', ':navigation'
+include ':app', ':navigation', 'data:model', 'data:local'
