@@ -1,4 +1,4 @@
-package com.medigo.mvvpstarter.di
+package com.medigo.modularstarter.di
 
 import com.medigo.auth.di.featureAuthModule
 import com.medigo.home.di.featureHomeModule

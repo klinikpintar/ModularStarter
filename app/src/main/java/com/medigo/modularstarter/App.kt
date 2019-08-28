@@ -1,7 +1,7 @@
-package com.medigo.mvvpstarter
+package com.medigo.modularstarter
 
 import android.app.Application
-import com.medigo.mvvpstarter.di.appComponent
+import com.medigo.modularstarter.di.appComponent
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidFileProperties
 import org.koin.android.ext.koin.androidLogger

@@ -1,4 +1,4 @@
-package com.medigo.mvvpstarter
+package com.medigo.modularstarter
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

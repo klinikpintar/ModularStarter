@@ -2,8 +2,6 @@ package com.medigo.remote.di
 
 import com.medigo.remote.ApiService
 import com.medigo.remote.BuildConfig
-import com.medigo.remote.BuildConfig.API_VERSION
-import com.medigo.remote.BuildConfig.CLIENT_ID
 import com.medigo.remote.DataStore
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
