@@ -1,0 +1,17 @@
+apply plugin: 'kotlin-kapt'
+apply from: '../../android_feature.gradle'
+apply plugin: "androidx.navigation.safeargs.kotlin"
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    defaultConfig {
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    dataBinding {
+        enabled true
+    }
+}
+
+dependencies {
+}

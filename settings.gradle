@@ -1,1 +1,1 @@
-include ':app', ':navigation', 'data:model', 'data:local'
+include ':app', ':navigation', ':common', ':common_test', 'features:home', 'features:auth', 'data:repository', 'data:remote', 'data:model', 'data:local'

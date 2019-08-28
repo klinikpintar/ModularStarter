@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+
+	<data>
+		<variable
+			name="view"
+			type="android.view.View"/>
+		<variable
+			name="viewmodel"
+			type="com.medigo.auth.viewmodel.LoginViewModel" />
+	</data>
+
+	<androidx.appcompat.widget.LinearLayoutCompat
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical">
+
+		<com.google.android.material.appbar.AppBarLayout
+			android:id="@+id/appBarLayout"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+
+			<androidx.appcompat.widget.Toolbar
+				android:id="@+id/toolbar"
+				android:layout_width="match_parent"
+				android:layout_height="56dp"
+				app:title="Login"/>
+
+		</com.google.android.material.appbar.AppBarLayout>
+
+		<androidx.appcompat.widget.AppCompatTextView
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:gravity="center"
+			android:text="Loading..."
+			android:visibility="@{viewmodel.loading ? view.VISIBLE : view.GONE}"/>
+
+		<androidx.appcompat.widget.LinearLayoutCompat
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:orientation="vertical"
+				android:gravity="center"
+				android:visibility="@{viewmodel.loading ? view.GONE : view.VISIBLE}">
+
+			<androidx.appcompat.widget.AppCompatEditText
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@={viewmodel.username}"
+					android:hint="username" />
+
+			<androidx.appcompat.widget.AppCompatEditText
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@={viewmodel.password}"
+					android:hint="password"/>
+
+			<androidx.appcompat.widget.AppCompatButton
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:onClick="@{() -> viewmodel.loginClicked()}"
+					android:text="LOGIN"/>
+
+			<androidx.appcompat.widget.AppCompatButton
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:onClick="@{() -> viewmodel.registerClicked()}"
+					android:text="REGISTER"/>
+
+		</androidx.appcompat.widget.LinearLayoutCompat>
+
+	</androidx.appcompat.widget.LinearLayoutCompat>
+
+</layout>

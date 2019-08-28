@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+			xmlns:app="http://schemas.android.com/apk/res-auto"
+			android:id="@+id/nav_graph_home_feature"
+			app:startDestination="@id/homeFragment">
+	
+	<fragment android:id="@+id/homeFragment"
+			  android:name="com.medigo.home.fragment.HomeFragment"
+			  android:label="">
+
+		<action android:id="@+id/action_homeFragment_to_loginFragment"
+				app:destination="@id/nav_graph_auth_login_feature"
+				app:enterAnim="@anim/slide_upward"
+				app:popExitAnim="@anim/slide_downward">
+		</action>
+
+		<action android:id="@+id/action_homeFragment_to_registerFragment"
+				app:destination="@id/nav_graph_auth_register_feature"
+				app:enterAnim="@anim/slide_to_left"
+				app:popExitAnim="@anim/slide_to_right">
+		</action>
+
+	</fragment>
+
+	<include app:graph="@navigation/nav_graph_auth_login_feature"/>
+	<include app:graph="@navigation/nav_graph_auth_register_feature"/>
+	
+</navigation>

@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.medigo.mvvpstarter">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <dist:module dist:instant="true" />
 
     <application

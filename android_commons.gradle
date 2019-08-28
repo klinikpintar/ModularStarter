@@ -8,6 +8,7 @@ android {
         targetSdkVersion Versions.targetSdk
         versionCode Releases.versionCode
         versionName Releases.versionName
+        buildConfigField 'String', 'BASE_URL', '"https://your.base.api/"'
     }
     buildTypes {
         release {

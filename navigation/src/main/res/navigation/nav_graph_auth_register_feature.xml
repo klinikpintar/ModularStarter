@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/nav_graph_auth_register_feature"
+            app:startDestination="@id/registerNameFragment">
+
+    <fragment
+            android:id="@+id/registerNameFragment"
+            android:name="com.medigo.auth.fragment.RegisterNameFragment"
+            android:label="">
+
+        <action
+                android:id="@+id/action_registerNameFragment_to_registerPasswordFragment"
+                app:destination="@id/registerPasswordFragment"/>
+
+    </fragment>
+
+    <fragment
+            android:id="@+id/registerPasswordFragment"
+            android:name="com.medigo.auth.fragment.RegisterPasswordFragment"
+            android:label="">
+
+        <action
+                android:id="@+id/action_pop_out_auth_register_feature"
+                app:popUpTo="@id/nav_graph_auth_register_feature"/>
+
+    </fragment>
+
+</navigation>

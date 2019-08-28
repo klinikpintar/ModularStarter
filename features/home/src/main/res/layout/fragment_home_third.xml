@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+	<data>
+		<variable
+				name="viewmodel"
+				type="com.medigo.home.viewmodel.HomeThirdViewModel"/>
+	</data>
+	
+	<androidx.appcompat.widget.LinearLayoutCompat
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:orientation="vertical">
+		
+		<androidx.appcompat.widget.Toolbar
+				android:id="@+id/toolbar"
+				app:title="Third"
+				android:layout_width="match_parent"
+				android:layout_height="56dp"/>
+		
+		<TextView android:layout_width="match_parent" android:layout_height="match_parent"
+				  android:text="THIRD"
+				  android:textColor="#444444"
+				  android:background="#ffffff"
+				  android:gravity="center"/>
+	
+	</androidx.appcompat.widget.LinearLayoutCompat>
+
+</layout>

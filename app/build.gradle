@@ -12,6 +12,15 @@ android {
 }
 
 dependencies {
+    // DATA modules
+    implementation project(Modules.local)
+    implementation project(Modules.remote)
+    implementation project(Modules.repository)
+    // FEATURES modules
+    implementation project(Modules.home)
+    implementation project(Modules.auth)
+    // NAVIGATION
+    implementation project(Modules.navigation)
     // KOIN
     implementation Libraries.koin
     implementation Libraries.koinViewModel

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" android:id="@+id/layout">
+    
+    <data>
+        <variable name="viewmodel" type="com.medigo.home.viewmodel.HomeViewModel"/>
+    </data>
+    
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+    
+        <com.medigo.common.customview.NonSwipingViewPager
+                android:id="@+id/nsvp_content"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/navigation"/>
+    
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/navigation"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_gravity="start"
+				app:layout_constraintBottom_toBottomOf="parent"
+                app:menu="@menu/menu_home" />
+    
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

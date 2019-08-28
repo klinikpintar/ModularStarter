@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+	<data>
+		<variable name="view" type="android.view.View"/>
+		<variable
+				name="viewmodel"
+				type="com.medigo.home.viewmodel.HomeMainViewModel"/>
+	</data>
+	
+	<androidx.appcompat.widget.LinearLayoutCompat
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:orientation="vertical">
+		
+		<androidx.appcompat.widget.Toolbar
+				android:id="@+id/toolbar"
+				android:layout_width="match_parent"
+				app:title="Main"
+				android:layout_height="56dp"/>
+
+		<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:gravity="center"
+			android:visibility="@{viewmodel.isAuthenticated() ? view.VISIBLE : view.GONE}">
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@{viewmodel.profile.fullName}"/>
+
+		</RelativeLayout>
+
+		<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:gravity="center"
+			android:visibility="@{viewmodel.isAuthenticated() ? view.GONE : view.VISIBLE}">
+
+			<androidx.appcompat.widget.LinearLayoutCompat
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:gravity="center"
+				android:orientation="vertical">
+
+				<Button
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:onClick="@{() -> viewmodel.loginButonClicked()}"
+						style="@style/TextAppearance.AppCompat.Button"
+						android:text="Login"/>
+
+				<Button
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:onClick="@{() -> viewmodel.registerButtonClicked()}"
+						style="@style/TextAppearance.AppCompat.Button"
+						android:text="Register"/>
+
+			</androidx.appcompat.widget.LinearLayoutCompat>
+
+		</RelativeLayout>
+	
+	</androidx.appcompat.widget.LinearLayoutCompat>
+
+</layout>
