@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="com.medigo.home">
+	package="id.medigo.home">
 	
 	<application>
 		<activity android:name=".fragment.HomeActivity"/>

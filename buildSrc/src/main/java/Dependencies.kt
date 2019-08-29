@@ -1,6 +1,6 @@
 
 object ApplicationId {
-    val id = "com.medigo.modularstarter"
+    val id = "id.medigo.modularstarter"
 }
 
 object Releases {

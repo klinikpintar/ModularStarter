@@ -3,7 +3,7 @@
 	<data>
 		<variable
 				name="viewmodel"
-				type="com.medigo.home.viewmodel.HomeSecondViewModel"/>
+				type="id.medigo.home.viewmodel.HomeSecondViewModel"/>
 	</data>
 	
 	<androidx.appcompat.widget.LinearLayoutCompat

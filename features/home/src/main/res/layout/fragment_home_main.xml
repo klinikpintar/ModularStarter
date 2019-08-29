@@ -4,7 +4,7 @@
 		<variable name="view" type="android.view.View"/>
 		<variable
 				name="viewmodel"
-				type="com.medigo.home.viewmodel.HomeMainViewModel"/>
+				type="id.medigo.home.viewmodel.HomeMainViewModel"/>
 	</data>
 	
 	<androidx.appcompat.widget.LinearLayoutCompat

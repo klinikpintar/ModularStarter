@@ -2,7 +2,9 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable name="viewmodel" type="com.medigo.auth.viewmodel.RegisterViewModel"/>
+        <variable
+            name="viewmodel"
+            type="id.medigo.auth.viewmodel.RegisterViewModel"/>
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat

@@ -3,7 +3,7 @@
         xmlns:tools="http://schemas.android.com/tools" android:id="@+id/layout">
     
     <data>
-        <variable name="viewmodel" type="com.medigo.home.viewmodel.HomeViewModel"/>
+        <variable name="viewmodel" type="id.medigo.home.viewmodel.HomeViewModel"/>
     </data>
     
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -11,7 +11,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
     
-        <com.medigo.common.customview.NonSwipingViewPager
+        <id.medigo.common.customview.NonSwipingViewPager
                 android:id="@+id/nsvp_content"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"

@@ -7,7 +7,7 @@
 			type="android.view.View"/>
 		<variable
 			name="viewmodel"
-			type="com.medigo.auth.viewmodel.LoginViewModel" />
+			type="id.medigo.auth.viewmodel.LoginViewModel" />
 	</data>
 
 	<androidx.appcompat.widget.LinearLayoutCompat

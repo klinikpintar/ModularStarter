@@ -6,7 +6,7 @@
 
     <fragment
             android:id="@+id/registerNameFragment"
-            android:name="com.medigo.auth.fragment.RegisterNameFragment"
+            android:name="id.medigo.auth.fragment.RegisterNameFragment"
             android:label="">
 
         <action
@@ -17,7 +17,7 @@
 
     <fragment
             android:id="@+id/registerPasswordFragment"
-            android:name="com.medigo.auth.fragment.RegisterPasswordFragment"
+            android:name="id.medigo.auth.fragment.RegisterPasswordFragment"
             android:label="">
 
         <action

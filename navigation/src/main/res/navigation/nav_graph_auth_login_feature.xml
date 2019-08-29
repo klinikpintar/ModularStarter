@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.medigo.auth.fragment.LoginFragment"
+        android:name="id.medigo.auth.fragment.LoginFragment"
         android:label="Login">
 
         <action
