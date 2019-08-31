@@ -36,7 +36,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:orientation="vertical"
-					android:visibility="@{viewmodel.isAuthenticated() ? view.VISIBLE : view.GONE}">
+					android:visibility="@{viewmodel.isAuthenticated ? view.VISIBLE : view.GONE}">
 
 				<TextView
 						android:layout_width="wrap_content"
@@ -49,7 +49,7 @@
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:text="Logout"
-						android:onClick="@{() -> viewmodel.logout()}"/>
+						android:onClick="@{() -> viewmodel.logOutClicked()}"/>
 
 			</androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -57,7 +57,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:orientation="vertical"
-					android:visibility="@{viewmodel.isAuthenticated() ? view.GONE : view.VISIBLE}">
+					android:visibility="@{viewmodel.isAuthenticated ? view.GONE : view.VISIBLE}">
 
 				<Button
 						android:layout_width="wrap_content"

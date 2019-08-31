@@ -7,7 +7,7 @@ dependencies {
     implementation project(Modules.local)
 
     /** Used API instead of Implementation, because want the module that depend on repository
-     * module [ex. features module] got these module
+     * module [ex. features module] got these module too
      */
     api project(Modules.model)
     // ANDROID

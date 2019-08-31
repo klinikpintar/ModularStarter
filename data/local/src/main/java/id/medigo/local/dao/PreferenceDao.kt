@@ -15,7 +15,7 @@ interface PreferenceDao {
     fun getLoggedInUserId(): Maybe<String?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun savePreference(data: Preference)
+    fun savePreference(data: Preference): Completable
 
     @Query("DELETE FROM Preference")
     fun deletePreference(): Completable

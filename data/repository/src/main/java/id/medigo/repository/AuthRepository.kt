@@ -3,12 +3,12 @@ package id.medigo.repository
 import id.medigo.local.dao.ProfileDao
 import id.medigo.model.Profile
 import id.medigo.remote.DataStore
-import id.medigo.repository.utils.DataCallResource
+import id.medigo.repository.utils.DataNetResource
 import io.reactivex.Observable
 
 interface AuthRepository {
-    fun login(id: String, password: String, shouldSaveOnIO: Boolean = true): DataCallResource<Profile, Profile>
-    fun register(id: String, password: String, shouldSaveOnIO: Boolean = true): DataCallResource<Profile, Profile>
+    fun login(id: String, password: String, shouldSaveOnIO: Boolean = true): DataNetResource<Profile, Profile>
+    fun register(id: String, password: String, shouldSaveOnIO: Boolean = true): DataNetResource<Profile, Profile>
 }
 
 class AuthRepositoryImpl(
@@ -16,8 +16,8 @@ class AuthRepositoryImpl(
     private val profileDao: ProfileDao
 ): AuthRepository{
 
-    override fun login(id: String, password: String, shouldSaveOnIO: Boolean): DataCallResource<Profile, Profile> {
-        return object : DataCallResource<Profile, Profile>(){
+    override fun login(id: String, password: String, shouldSaveOnIO: Boolean): DataNetResource<Profile, Profile> {
+        return object : DataNetResource<Profile, Profile>(){
             override fun processResponse(response: Profile): Profile
                     = response
 
@@ -33,8 +33,8 @@ class AuthRepositoryImpl(
         }.build()
     }
 
-    override fun register(id: String, password: String, shouldSaveOnIO: Boolean): DataCallResource<Profile, Profile> {
-        return object : DataCallResource<Profile,Profile>(){
+    override fun register(id: String, password: String, shouldSaveOnIO: Boolean): DataNetResource<Profile, Profile> {
+        return object : DataNetResource<Profile,Profile>(){
             override fun processResponse(response: Profile): Profile
                     = response
 

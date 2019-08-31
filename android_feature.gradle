@@ -8,15 +8,6 @@ apply from: '../../android_commons.gradle'
 dependencies {
     implementation project(Modules.common)
 
-    implementation project(Modules.repository)
-    implementation project(Modules.navigation)
-    // KOIN (Because each feature has to handle its dependencies)
-    implementation Libraries.koin
-    implementation Libraries.koinViewModel
-    // RX
-    implementation AndroidLibraries.rxAndroid
-    implementation Libraries.rxKotlin
-    implementation Libraries.rx
     // TEST
     androidTestImplementation TestLibraries.androidTestRunner
     androidTestImplementation TestLibraries.junit

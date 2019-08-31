@@ -3,15 +3,14 @@
 
     <data>
         <variable
-            name="viewmodel"
-            type="id.medigo.auth.viewmodel.RegisterViewModel"/>
+                name="viewmodel"
+                type="id.medigo.auth.viewmodel.RegisterViewModel"/>
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:background="@color/colorBackground">
+            android:orientation="vertical">
 
         <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/appBarLayout"
@@ -35,14 +34,14 @@
             <androidx.appcompat.widget.AppCompatEditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="username"
-                    android:textColor="#444444"/>
+                    android:text="@={viewmodel.username}"
+                    android:hint="username"/>
 
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="@{() -> viewmodel.registerNameNextClicked()}"
-                android:text="Next"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> viewmodel.registerNameNextClicked()}"
+                    android:text="Next"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

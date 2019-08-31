@@ -7,14 +7,20 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 
-abstract class DataCallResource<ResultType, RequestType> {
+abstract class DataCacheResource<ResultType, RequestType> {
 
-    val TAG = DataResource::class.java.simpleName
+    val TAG = DataCacheResource::class.java.simpleName
 
     lateinit var result: Observable<ResultType>
 
-    fun build(): DataCallResource<ResultType, RequestType> {
-        result = networkData().map { processResponse(it) }
+    fun build(): DataCacheResource<ResultType, RequestType> {
+        result = loadFromDb().flatMap {
+            if (shouldFetch(it)) {
+                networkData().map { requestType -> processResponse(requestType) }
+            } else {
+                Observable.just(it)
+            }
+        }
         return this
     }
 
@@ -40,11 +46,17 @@ abstract class DataCallResource<ResultType, RequestType> {
     @WorkerThread
     protected abstract fun processResponse(response: RequestType): ResultType
 
+    @WorkerThread
+    protected abstract fun saveCallResults(data: ResultType): Completable
+
+    @MainThread
+    protected abstract fun shouldFetch(data: ResultType?): Boolean
+
     @MainThread
     protected abstract fun shouldSaveOnIO(): Boolean
 
-    @WorkerThread
-    protected abstract fun saveCallResults(data: ResultType): Completable
+    @MainThread
+    protected abstract fun loadFromDb(): Observable<ResultType>
 
     @MainThread
     protected abstract fun createCall(): Observable<RequestType>

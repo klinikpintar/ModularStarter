@@ -7,7 +7,7 @@ import io.reactivex.Maybe
 
 interface PreferenceRepository{
     fun getLoggedInUserId(): Maybe<String?>
-    fun setLoggedInUserId(id: String)
+    fun setLoggedInUserId(id: String): Completable
     fun loggedOutUser(): Completable
 }
 
@@ -18,7 +18,7 @@ class PreferenceRepositoryImpl(
     override fun getLoggedInUserId(): Maybe<String?>
             = dao.getLoggedInUserId()
 
-    override fun setLoggedInUserId(id: String)
+    override fun setLoggedInUserId(id: String): Completable
             = dao.savePreference(Preference("1", id))
 
     override fun loggedOutUser(): Completable {

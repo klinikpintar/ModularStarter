@@ -1,6 +1,5 @@
 package id.medigo.repository.utils
 
-import android.annotation.SuppressLint
 import android.util.Log
 import androidx.annotation.MainThread
 import androidx.annotation.WorkerThread
@@ -8,19 +7,14 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 
-abstract class DataResource<ResultType, RequestType> {
+abstract class DataNetResource<ResultType, RequestType> {
 
-    val TAG = DataResource::class.java.simpleName
+    val TAG = DataCacheResource::class.java.simpleName
 
     lateinit var result: Observable<ResultType>
 
-    @SuppressLint("CheckResult")
-    fun build(): DataResource<ResultType, RequestType> {
-        result = loadFromDb()
-        loadFromDb().doOnNext {
-            if (shouldFetch(it))
-                result = networkData().map { requestType -> processResponse(requestType) }
-        }
+    fun build(): DataNetResource<ResultType, RequestType> {
+        result = networkData().map { processResponse(it) }
         return this
     }
 
@@ -46,17 +40,11 @@ abstract class DataResource<ResultType, RequestType> {
     @WorkerThread
     protected abstract fun processResponse(response: RequestType): ResultType
 
-    @WorkerThread
-    protected abstract fun saveCallResults(data: ResultType): Completable
-
-    @MainThread
-    protected abstract fun shouldFetch(data: ResultType?): Boolean
-
     @MainThread
     protected abstract fun shouldSaveOnIO(): Boolean
 
-    @MainThread
-    protected abstract fun loadFromDb(): Observable<ResultType>
+    @WorkerThread
+    protected abstract fun saveCallResults(data: ResultType): Completable
 
     @MainThread
     protected abstract fun createCall(): Observable<RequestType>

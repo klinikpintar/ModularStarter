@@ -7,4 +7,15 @@ dependencies {
     implementation AndroidLibraries.navigation
     implementation AndroidLibraries.navigationFrag
     implementation project(Modules.navigation)
+
+    api project(Modules.repository)
+    api project(Modules.navigation)
+    // KOIN (Because each feature has to handle its dependencies)
+    api Libraries.koin
+    api Libraries.koinCore
+    api Libraries.koinViewModel
+    // RX
+    api AndroidLibraries.rxAndroid
+    api Libraries.rxKotlin
+    api Libraries.rx
 }

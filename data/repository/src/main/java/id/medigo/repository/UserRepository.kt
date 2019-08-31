@@ -3,7 +3,7 @@ package id.medigo.repository
 import id.medigo.local.dao.ProfileDao
 import id.medigo.model.Profile
 import id.medigo.remote.DataStore
-import id.medigo.repository.utils.DataResource
+import id.medigo.repository.utils.DataCacheResource
 import io.reactivex.Observable
 
 interface UserRepository {
@@ -11,7 +11,7 @@ interface UserRepository {
         username: String,
         shouldFetch: Boolean = true,
         shouldSaveOnIO: Boolean = true
-    ): DataResource<Profile, Profile>
+    ): DataCacheResource<Profile, Profile>
 }
 
 class UserRepositoryImpl(
@@ -19,8 +19,8 @@ class UserRepositoryImpl(
     private val dao: ProfileDao
 ): UserRepository {
 
-    override fun getProfileWithCache(username: String, shouldFetch: Boolean, shouldSaveOnIO: Boolean): DataResource<Profile, Profile> {
-        return object : DataResource<Profile, Profile>(){
+    override fun getProfileWithCache(username: String, shouldFetch: Boolean, shouldSaveOnIO: Boolean): DataCacheResource<Profile, Profile> {
+        return object : DataCacheResource<Profile, Profile>(){
 
             override fun processResponse(response: Profile): Profile
                     = response

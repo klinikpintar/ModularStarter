@@ -6,22 +6,17 @@ import id.medigo.auth.fragment.LoginFragmentDirections
 import id.medigo.common.base.BaseViewModel
 import id.medigo.common.utils.Event
 import id.medigo.model.Profile
-import id.medigo.repository.AppDispatchers
-import id.medigo.repository.PreferenceRepository
-import id.medigo.repository.utils.DataCallResource
+import id.medigo.repository.utils.DataNetResource
 import io.reactivex.Completable
 
 class LoginViewModel(
-    private val preferenceRepository: PreferenceRepository,
-    private val getLoginUseCase: GetLoginUseCase,
-    private val dispatchers: AppDispatchers
+    private val getLoginUseCase: GetLoginUseCase
 ): BaseViewModel() {
 
-    private lateinit var userData: DataCallResource<Profile, Profile>
+    private lateinit var userData: DataNetResource<Profile, Profile>
 
     val username: MutableLiveData<String> = MutableLiveData()
     val password: MutableLiveData<String> = MutableLiveData()
-    val loading: MutableLiveData<Boolean> = MutableLiveData()
 
     fun registerClicked() =
             navigateTo(LoginFragmentDirections.actionLoginFragmentToRegisterFeature())
@@ -30,14 +25,7 @@ class LoginViewModel(
         userData = this.getLoginUseCase.invoke(username.value?: "", password.value?: "")
         this.disposable.add(
             this.userData.result
-                .subscribeOn(dispatchers.io)
-                .observeOn(dispatchers.main)
-                .doOnSubscribe { loading.postValue(true) }
-                .doOnError {
-                    loading.postValue(false)
-                    _snackbarError.postValue(Event(it.message?: "Error"))
-                }
-                .doOnComplete { loading.postValue(false) }
+                .compose(this.observableTransformer())
                 .subscribe({
                     saveUserData(it)
                 },{
@@ -51,14 +39,8 @@ class LoginViewModel(
             Completable
                 .concatArray(
                 this.userData.storeData(data),
-                Completable.fromAction { this.preferenceRepository.setLoggedInUserId(data.id) })
-                .subscribeOn(dispatchers.io)
-                .observeOn(dispatchers.main)
-                .doOnError {
-                    loading.postValue(false)
-                    _snackbarError.postValue(Event(it.message?: "Error"))
-                }
-                .doOnComplete { loading.postValue(false) }
+                this.preferenceRepository.setLoggedInUserId(data.login))
+                .compose(this.completableTransformer)
                 .subscribe({
                     navigateTo(LoginFragmentDirections.actionPopOutAuthFeature())
                 },{

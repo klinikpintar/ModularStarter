@@ -32,7 +32,7 @@ abstract class BaseFragment: Fragment() {
                 when (command) {
                     is NavigationCommand.To -> findNavController().navigate(command.directions, getExtras())
                     is NavigationCommand.Back -> findNavController().navigateUp()
-                    is NavigationCommand.ClearAll -> findNavController().popBackStack(R.id.nav_graph_home_feature, false)
+                    is NavigationCommand.ClearAll -> findNavController().popBackStack(R.id.homeFragment, false)
                 }
             }
         })
