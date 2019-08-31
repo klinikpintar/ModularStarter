@@ -2,16 +2,18 @@ package id.medigo.remote
 
 class DataStore (var apiService: ApiService){
 
-    suspend fun postLoginAsync(id: String, password: String) =
-            apiService.login(id, password)
+    fun postLogin(username: String, password: String) =
+            apiService.login(username
+//                , password
+            )
 
-    suspend fun postRegistrationAsync(id: String, password: String) =
-            apiService.register(id, password)
+    fun postRegistration(username: String, password: String) =
+            apiService.register(username, password)
 
-    suspend fun fetchUserAsync() =
-            apiService.getUserProfile()
+    fun fetchUser(username: String) =
+            apiService.getUserProfile(username)
 
-    suspend fun postUserAsync(inputForm: HashMap<String, Any>) =
-            apiService.editProfile(inputForm)
+    fun fetchRepos(username: String) =
+            apiService.getRepos(username)
 
 }

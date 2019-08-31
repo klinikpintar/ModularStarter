@@ -1,7 +1,7 @@
 package id.medigo.repository
 
-import kotlinx.coroutines.CoroutineDispatcher
+import io.reactivex.Scheduler
 
-class AppDispatchers(val main: CoroutineDispatcher,
-                     val io: CoroutineDispatcher
+class AppDispatchers(val main: Scheduler,
+                     val io: Scheduler
 )

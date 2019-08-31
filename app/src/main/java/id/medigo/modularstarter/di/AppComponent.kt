@@ -7,6 +7,10 @@ import id.medigo.remote.di.remoteModule
 import id.medigo.repository.di.repositoryModule
 import org.koin.core.module.Module
 
+/**
+ *  List all of module used by root app here
+ */
+
 val appComponent :List<Module> = listOf(
     remoteModule,
     localModule,

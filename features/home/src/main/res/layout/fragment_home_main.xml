@@ -1,66 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		xmlns:tools="http://schemas.android.com/tools">
 	<data>
 		<variable name="view" type="android.view.View"/>
 		<variable
 				name="viewmodel"
 				type="id.medigo.home.viewmodel.HomeMainViewModel"/>
 	</data>
-	
+
 	<androidx.appcompat.widget.LinearLayoutCompat
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:orientation="vertical">
-		
+			android:orientation="vertical"
+			android:background="@color/colorBackground">
+
 		<androidx.appcompat.widget.Toolbar
 				android:id="@+id/toolbar"
 				android:layout_width="match_parent"
+				android:background="@color/colorPrimary"
 				app:title="Main"
 				android:layout_height="56dp"/>
 
 		<RelativeLayout
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:gravity="center"
-			android:visibility="@{viewmodel.isAuthenticated() ? view.VISIBLE : view.GONE}">
-
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="@{viewmodel.profile.fullName}"/>
-
-		</RelativeLayout>
-
-		<RelativeLayout
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:gravity="center"
-			android:visibility="@{viewmodel.isAuthenticated() ? view.GONE : view.VISIBLE}">
-
-			<androidx.appcompat.widget.LinearLayoutCompat
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
-				android:gravity="center"
-				android:orientation="vertical">
+				android:gravity="center">
+
+			<ProgressBar
+					android:visibility="@{viewmodel.loading ? view.VISIBLE : view.GONE}"
+					android:layout_width="48dp"
+					android:layout_height="48dp" />
+
+			<androidx.appcompat.widget.LinearLayoutCompat
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:orientation="vertical"
+					android:visibility="@{viewmodel.isAuthenticated() ? view.VISIBLE : view.GONE}">
+
+				<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						tools:text="@string/app_name"
+						android:textColor="#444444"
+						android:text="@{viewmodel.profile.name}"/>
+
+				<Button
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="Logout"
+						android:onClick="@{() -> viewmodel.logout()}"/>
+
+			</androidx.appcompat.widget.LinearLayoutCompat>
+
+			<androidx.appcompat.widget.LinearLayoutCompat
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:orientation="vertical"
+					android:visibility="@{viewmodel.isAuthenticated() ? view.GONE : view.VISIBLE}">
 
 				<Button
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:onClick="@{() -> viewmodel.loginButonClicked()}"
-						style="@style/TextAppearance.AppCompat.Button"
 						android:text="Login"/>
 
 				<Button
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:onClick="@{() -> viewmodel.registerButtonClicked()}"
-						style="@style/TextAppearance.AppCompat.Button"
 						android:text="Register"/>
 
 			</androidx.appcompat.widget.LinearLayoutCompat>
 
 		</RelativeLayout>
-	
+
 	</androidx.appcompat.widget.LinearLayoutCompat>
 
 </layout>

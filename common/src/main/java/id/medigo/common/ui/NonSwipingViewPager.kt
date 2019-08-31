@@ -1,4 +1,4 @@
-package id.medigo.common.customview
+package id.medigo.common.ui
 
 import android.content.Context
 import android.util.AttributeSet

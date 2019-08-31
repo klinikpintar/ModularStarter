@@ -8,12 +8,19 @@ android {
         targetSdkVersion Versions.targetSdk
         versionCode Releases.versionCode
         versionName Releases.versionName
-        buildConfigField 'String', 'BASE_URL', '"https://your.base.api/"'
+        buildConfigField 'String', 'BASE_URL', '"https://api.github.com/"'
     }
     buildTypes {
         release {
             minifyEnabled true
         }
+    }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 }
 

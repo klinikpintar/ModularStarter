@@ -1,16 +1,14 @@
 package id.medigo.home.domain
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
 import id.medigo.model.Profile
 import id.medigo.repository.UserRepository
-import id.medigo.repository.utils.Resource
+import id.medigo.repository.utils.DataResource
 
 class GetProfileUseCase(private val userRepository: UserRepository){
 
-    suspend operator fun invoke(shouldFetch: Boolean): LiveData<Resource<Profile>> {
-        return Transformations.map(userRepository.getProfileWithCache(shouldFetch)) {
-            it
+    operator fun invoke(username: String, shouldFetch: Boolean): DataResource<Profile, Profile> {
+        return userRepository.getProfileWithCache(username, shouldFetch).apply {
+            result.map { it }
         }
     }
 

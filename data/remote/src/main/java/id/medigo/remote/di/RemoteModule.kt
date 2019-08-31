@@ -9,6 +9,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 const val LOGGING_INTERCEPTOR = "LOGGING_INTERCEPTOR"
@@ -17,26 +18,28 @@ const val HEADER_INTERCEPTOR = "HEADER_INTERCEPTOR"
 var remoteModule = module {
 
     single<Interceptor>(named(LOGGING_INTERCEPTOR)) {
-        HttpLoggingInterceptor()
-            .setLevel(HttpLoggingInterceptor.Level.HEADERS)
+        val httpLoggingInterceptor = HttpLoggingInterceptor()
+        httpLoggingInterceptor.apply { level = HttpLoggingInterceptor.Level.HEADERS }
     }
 
-    // Separated header interceptor
-    single(named(HEADER_INTERCEPTOR)) {
-        Interceptor { chain ->
-            val lOriginalRequest = chain.request()
-            val lRequest = lOriginalRequest.newBuilder()
-                .header("Authorization", String.format("Bearer ","YOUR_TOKEN"))
-                .method(lOriginalRequest.method(), lOriginalRequest.body()).build()
-
-            chain.proceed(lRequest)
-        }
-    }
+/**
+    Separated header interceptor (if you wanna add some Authorization or something else)
+ */
+//    single(named(HEADER_INTERCEPTOR)) {
+//        Interceptor { chain ->
+//            val lOriginalRequest = chain.request()
+//            val lRequest = lOriginalRequest.newBuilder()
+//                .header("Authorization", String.format("Bearer ","YOUR_TOKEN"))
+//                .method(lOriginalRequest.method(), lOriginalRequest.body()).build()
+//
+//            chain.proceed(lRequest)
+//        }
+//    }
 
     factory {
         OkHttpClient.Builder()
             .addInterceptor(get(named(LOGGING_INTERCEPTOR)))
-            .addInterceptor(get(named(HEADER_INTERCEPTOR)))
+//            .addInterceptor(get(named(HEADER_INTERCEPTOR)))
             .build() }
 
     single {
@@ -44,6 +47,7 @@ var remoteModule = module {
             .client(get())
             .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
     }
 

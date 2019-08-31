@@ -13,6 +13,7 @@ dependencies {
     implementation AndroidLibraries.lifecycleViewModel
     implementation AndroidLibraries.lifecycleExtensions
     implementation AndroidLibraries.recyclerView
+    implementation AndroidLibraries.cardView
     implementation AndroidLibraries.navigation
     implementation AndroidLibraries.navigationFrag
 }

@@ -11,7 +11,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
     
-        <id.medigo.common.customview.NonSwipingViewPager
+        <id.medigo.common.ui.NonSwipingViewPager
                 android:id="@+id/nsvp_content"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -25,6 +25,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_gravity="start"
+                android:background="#FFFFFF"
+                app:itemIconTint="@color/bottom_navigation_colors"
+                app:itemTextColor="@color/bottom_navigation_colors"
 				app:layout_constraintBottom_toBottomOf="parent"
                 app:menu="@menu/menu_home" />
     

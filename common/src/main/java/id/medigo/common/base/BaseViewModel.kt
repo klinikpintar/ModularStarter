@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.NavDirections
 import id.medigo.common.utils.Event
 import id.medigo.navigation.NavigationCommand
+import io.reactivex.disposables.CompositeDisposable
 
 abstract class BaseViewModel: ViewModel() {
 
@@ -17,10 +18,21 @@ abstract class BaseViewModel: ViewModel() {
     private val _navigation = MutableLiveData<Event<NavigationCommand>>()
     val navigation: LiveData<Event<NavigationCommand>> = _navigation
 
+    protected var disposable: CompositeDisposable = CompositeDisposable()
+
+    override fun onCleared() {
+        this.disposable.dispose()
+        super.onCleared()
+    }
+
     /**
      * Convenient method to handle navigation from a [ViewModel]
      */
-    fun navigate(directions: NavDirections) {
+    fun navigateTo(directions: NavDirections) {
         _navigation.value = Event(NavigationCommand.To(directions))
+    }
+
+    fun navigate(command: NavigationCommand) {
+        _navigation.value = Event(command)
     }
 }

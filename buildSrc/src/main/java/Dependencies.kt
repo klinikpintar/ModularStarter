@@ -34,6 +34,7 @@ object Versions {
     const val coreKtx = "1.0.1"
     const val constraintLayout = "1.1.3"
     const val recyclerview = "1.0.0"
+    const val cardView = "1.0.0"
 
     const val koin = "2.0.1"
 
@@ -43,10 +44,14 @@ object Versions {
     const val room = "2.1.0"
 
     const val gson = "2.8.5"
-    const val okHttp = "4.1.0"
+    const val okHttp = "3.12.1"
     const val retrofit = "2.6.1"
+    const val rxAndroid = "2.1.1"
+    const val rxRoom = "2.1.0"
+    const val rxKotlin = "2.4.0"
+    const val rx = "2.2.12"
 
-    const val lifecycle = "2.0.0"
+    const val lifecycle = "2.1.0-alpha04"
 
     const val androidTestRunner = "1.2.0"
     const val espressoCore = "3.2.0"
@@ -70,9 +75,11 @@ object Libraries {
     const val gson = "com.google.code.gson:gson:${Versions.gson}"
     const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
     const val retrofitGsonConverter = "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"
+    const val retrofitRxAdapter ="com.squareup.retrofit2:adapter-rxjava2:${Versions.retrofit}"
     const val httpLoggingInterceptor = "com.squareup.okhttp3:logging-interceptor:${Versions.okHttp}"
-    // RX
-    const val rx = "io.reactivex.rxjava2:rxandroid:"
+    const val rx = "io.reactivex.rxjava2:rxjava:${Versions.rx}"
+    const val rxKotlin = "io.reactivex.rxjava2:rxkotlin:${Versions.rxKotlin}"
+    const val rxRoom = "androidx.room:room-rxjava2:${Versions.rxRoom}"
 }
 
 object AndroidLibraries {
@@ -85,8 +92,11 @@ object AndroidLibraries {
     const val lifecycleViewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
     const val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:${Versions.lifecycle}"
     const val recyclerView = "androidx.recyclerview:recyclerview:${Versions.recyclerview}"
+    const val cardView = "androidx.cardview:cardview:${Versions.cardView}"
     const val navigation = "androidx.navigation:navigation-ui-ktx:${Versions.nav}"
     const val navigationFrag = "androidx.navigation:navigation-fragment-ktx:${Versions.nav}"
+    // RX
+    const val rxAndroid = "io.reactivex.rxjava2:rxandroid:${Versions.rxAndroid}"
 }
 
 object KotlinLibraries {

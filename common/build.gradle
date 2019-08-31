@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 apply from: '../android_commons.gradle'
 
 dependencies {
+    implementation Libraries.rxKotlin
     implementation AndroidLibraries.appCompat
     implementation AndroidLibraries.navigation
     implementation AndroidLibraries.navigationFrag

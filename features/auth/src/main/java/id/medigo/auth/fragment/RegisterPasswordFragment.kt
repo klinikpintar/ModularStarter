@@ -26,11 +26,6 @@ class RegisterPasswordFragment: BaseFragment(){
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        binding.viewmodel?.profile?.observe(viewLifecycleOwner, Observer {  })
-    }
-
     override fun getViewModel(): BaseViewModel = registerViewModel
 
 }

@@ -1,31 +1,52 @@
 package id.medigo.repository
 
-import androidx.lifecycle.LiveData
+import id.medigo.local.dao.ProfileDao
 import id.medigo.model.Profile
 import id.medigo.remote.DataStore
-import id.medigo.repository.utils.NetworkResource
-import id.medigo.repository.utils.Resource
+import id.medigo.repository.utils.DataCallResource
+import io.reactivex.Observable
 
 interface AuthRepository {
-    suspend fun login(id: String, password: String): LiveData<Resource<Profile>>
-    suspend fun register(id: String, password: String): LiveData<Resource<Profile>>
+    fun login(id: String, password: String, shouldSaveOnIO: Boolean = true): DataCallResource<Profile, Profile>
+    fun register(id: String, password: String, shouldSaveOnIO: Boolean = true): DataCallResource<Profile, Profile>
 }
 
 class AuthRepositoryImpl(
-    private val dataStore: DataStore
+    private val dataStore: DataStore,
+    private val profileDao: ProfileDao
 ): AuthRepository{
 
-    override suspend fun login(id: String, password: String): LiveData<Resource<Profile>> {
-        return object : NetworkResource<Profile>() {
-            override suspend fun createCall(): Profile
-                    = dataStore.postLoginAsync(id, password)
-        }.build().asLiveData()
+    override fun login(id: String, password: String, shouldSaveOnIO: Boolean): DataCallResource<Profile, Profile> {
+        return object : DataCallResource<Profile, Profile>(){
+            override fun processResponse(response: Profile): Profile
+                    = response
+
+            override fun saveCallResults(data: Profile)
+                    = profileDao.save(data)
+
+            override fun shouldSaveOnIO(): Boolean
+                    = shouldSaveOnIO
+
+            override fun createCall(): Observable<Profile>
+                    = dataStore.postLogin(id, password).toObservable()
+
+        }.build()
     }
 
-    override suspend fun register(id: String, password: String): LiveData<Resource<Profile>> {
-        return object : NetworkResource<Profile>() {
-            override suspend fun createCall(): Profile
-                    = dataStore.postRegistrationAsync(id, password)
-        }.build().asLiveData()
+    override fun register(id: String, password: String, shouldSaveOnIO: Boolean): DataCallResource<Profile, Profile> {
+        return object : DataCallResource<Profile,Profile>(){
+            override fun processResponse(response: Profile): Profile
+                    = response
+
+            override fun saveCallResults(data: Profile)
+                    = profileDao.save(data)
+
+            override fun shouldSaveOnIO(): Boolean
+                    = shouldSaveOnIO
+
+            override fun createCall(): Observable<Profile>
+                    = dataStore.postRegistration(id, password).toObservable()
+
+        }.build()
     }
 }

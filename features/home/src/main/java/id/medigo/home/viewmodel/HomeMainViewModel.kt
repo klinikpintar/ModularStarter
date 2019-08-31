@@ -1,58 +1,82 @@
 package id.medigo.home.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import id.medigo.auth.fragment.LoginFragmentDirections
 import id.medigo.common.base.BaseViewModel
 import id.medigo.common.utils.Event
 import id.medigo.home.domain.GetProfileUseCase
 import id.medigo.home.fragment.HomeFragmentDirections
 import id.medigo.model.Profile
 import id.medigo.repository.AppDispatchers
-import id.medigo.repository.UserRepository
-import id.medigo.repository.utils.Resource
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import id.medigo.repository.PreferenceRepository
 
 class HomeMainViewModel(
+    private val preferenceRepository: PreferenceRepository,
     private val dispatchers: AppDispatchers,
     private val profileUseCase: GetProfileUseCase
 ): BaseViewModel(){
 
-    val isAuthenticated = MutableLiveData<Boolean>()
-    private var profileSource: LiveData<Resource<Profile>> = MutableLiveData()
-    private val _profile = MediatorLiveData<Profile>()
-    val profile: LiveData<Profile> get() = _profile
-    val loading: MutableLiveData<Boolean> = MutableLiveData()
+    var isAuthenticated = MutableLiveData<Boolean>()
+    val profile = MutableLiveData<Profile>()
+    val loading = MutableLiveData<Boolean>()
 
     fun loginButonClicked(){
-        navigate(HomeFragmentDirections.actionHomeFragmentToLoginFragment())
+        navigateTo(HomeFragmentDirections.actionHomeFragmentToLoginFragment())
     }
 
     fun registerButtonClicked(){
-        navigate(HomeFragmentDirections.actionHomeFragmentToRegisterFragment())
+        navigateTo(HomeFragmentDirections.actionHomeFragmentToRegisterFragment())
     }
 
-    fun fethcProfileData(shouldFetch: Boolean) = viewModelScope.launch(dispatchers.main) {
-        _profile.removeSource(profileSource)
-        withContext(dispatchers.io) { profileSource = profileUseCase(shouldFetch) }
-        _profile.addSource(profileSource) {
-            when (it.status){
-                Resource.Status.SUCCESS -> {
+    fun fethcDataState() {
+        this.disposable.add(
+            this.preferenceRepository.getLoggedInUserId()
+                .subscribeOn(dispatchers.io)
+                .observeOn(dispatchers.main)
+                .doOnSubscribe { loading.postValue(true) }
+                .doOnError { loading.postValue(false) }
+                .subscribe({
                     loading.postValue(false)
-                    _profile.postValue(it.data)
+                    if (!it.isNullOrEmpty()) {
+                        fetchUserData(it, false)
+                    }
+                },{
+                    loading.postValue(false)
+                    _snackbarError.postValue(Event(it.message?: "Error"))
+                })
+        )
+    }
+
+    fun fetchUserData(username: String, shouldFetch: Boolean) {
+        this.disposable.add(
+            this.profileUseCase.invoke(username, shouldFetch).result
+                .subscribeOn(dispatchers.io)
+                .observeOn(dispatchers.main)
+                .doOnSubscribe { loading.postValue(true) }
+                .doOnComplete { loading.postValue(false) }
+                .doOnError {  }
+                .subscribe({
                     isAuthenticated.postValue(true)
-                }
-                Resource.Status.ERROR -> {
-                    loading.postValue(false)
-                    _snackbarError.value = Event(it.error?.message?:"Error")
-                    isAuthenticated.postValue(false)
-                }
-                Resource.Status.LOADING -> loading.postValue(true)
-            }
-        }
+                    profile.postValue(it)
+                },{
+                    _snackbarError.postValue(Event(it.message?: "Error"))
+                })
+        )
+    }
+
+    fun logout(){
+        this.disposable.add(
+            this.preferenceRepository.loggedOutUser()
+                .subscribeOn(dispatchers.io)
+                .observeOn(dispatchers.main)
+                .doOnSubscribe { loading.postValue(true) }
+                .doOnComplete { loading.postValue(false) }
+                .subscribe({
+//                    isAuthenticated.postValue(false)
+                    fethcDataState()
+                },{
+                    _snackbarError.postValue(Event(it.message?: "Error"))
+                })
+        )
     }
 
 }

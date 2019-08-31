@@ -1,52 +1,70 @@
 package id.medigo.auth.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import id.medigo.auth.domain.GetLoginUseCase
 import id.medigo.auth.fragment.LoginFragmentDirections
 import id.medigo.common.base.BaseViewModel
 import id.medigo.common.utils.Event
 import id.medigo.model.Profile
 import id.medigo.repository.AppDispatchers
-import id.medigo.repository.utils.Resource
-import id.medigo.repository.utils.Resource.Status.*
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import id.medigo.repository.PreferenceRepository
+import id.medigo.repository.utils.DataCallResource
+import io.reactivex.Completable
 
 class LoginViewModel(
+    private val preferenceRepository: PreferenceRepository,
     private val getLoginUseCase: GetLoginUseCase,
     private val dispatchers: AppDispatchers
 ): BaseViewModel() {
+
+    private lateinit var userData: DataCallResource<Profile, Profile>
 
     val username: MutableLiveData<String> = MutableLiveData()
     val password: MutableLiveData<String> = MutableLiveData()
     val loading: MutableLiveData<Boolean> = MutableLiveData()
 
-    private var profileSource: LiveData<Resource<Profile>> = MutableLiveData()
-    private val _profile = MediatorLiveData<Profile>()
-    val profile: LiveData<Profile> get() = _profile
-
     fun registerClicked() =
-            navigate(LoginFragmentDirections.actionLoginFragmentToRegisterFeature())
+            navigateTo(LoginFragmentDirections.actionLoginFragmentToRegisterFeature())
 
-    fun loginClicked() = viewModelScope.launch(dispatchers.main) {
-        _profile.removeSource(profileSource)
-        withContext(dispatchers.io) { profileSource = getLoginUseCase(username.value?:"", password.value?:"") }
-        _profile.addSource(profileSource) {
-            when (it.status){
-                SUCCESS -> {
+    fun loginClicked() {
+        userData = this.getLoginUseCase.invoke(username.value?: "", password.value?: "")
+        this.disposable.add(
+            this.userData.result
+                .subscribeOn(dispatchers.io)
+                .observeOn(dispatchers.main)
+                .doOnSubscribe { loading.postValue(true) }
+                .doOnError {
                     loading.postValue(false)
-                    navigate(LoginFragmentDirections.actionPopOutAuthFeature())
+                    _snackbarError.postValue(Event(it.message?: "Error"))
                 }
-                ERROR -> {
+                .doOnComplete { loading.postValue(false) }
+                .subscribe({
+                    saveUserData(it)
+                },{
+                    _snackbarError.postValue(Event(it.message?: "Error"))
+                })
+        )
+    }
+
+    private fun saveUserData(data: Profile) {
+        this.disposable.add(
+            Completable
+                .concatArray(
+                this.userData.storeData(data),
+                Completable.fromAction { this.preferenceRepository.setLoggedInUserId(data.id) })
+                .subscribeOn(dispatchers.io)
+                .observeOn(dispatchers.main)
+                .doOnError {
                     loading.postValue(false)
-                    _snackbarError.value = Event(it.error?.message?:"Error")
+                    _snackbarError.postValue(Event(it.message?: "Error"))
                 }
-                LOADING -> loading.postValue(true)
-            }
-        }
+                .doOnComplete { loading.postValue(false) }
+                .subscribe({
+                    navigateTo(LoginFragmentDirections.actionPopOutAuthFeature())
+                },{
+                    _snackbarError.postValue(Event(it.message?: "Error"))
+                })
+        )
     }
 
 }

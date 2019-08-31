@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import id.medigo.common.extension.setupSnackbar
 import id.medigo.navigation.NavigationCommand
+import id.medigo.navigation.R
 
 abstract class BaseFragment: Fragment() {
 
@@ -21,19 +22,17 @@ abstract class BaseFragment: Fragment() {
 
     abstract fun getViewModel(): BaseViewModel
 
-    // UTILS METHODS ---
-
     /**
      * Observe a [NavigationCommand] [Event] [LiveData].
-     * When this [LiveData] is updated, [Fragment] will navigate to its destination
+     * When this [LiveData] is updated, [Fragment] will navigateTo to its destination
      */
     private fun observeNavigation(viewModel: BaseViewModel) {
         viewModel.navigation.observe(viewLifecycleOwner, Observer {
-            val navc = findNavController()
             it?.getContentIfNotHandled()?.let { command ->
                 when (command) {
                     is NavigationCommand.To -> findNavController().navigate(command.directions, getExtras())
                     is NavigationCommand.Back -> findNavController().navigateUp()
+                    is NavigationCommand.ClearAll -> findNavController().popBackStack(R.id.nav_graph_home_feature, false)
                 }
             }
         })

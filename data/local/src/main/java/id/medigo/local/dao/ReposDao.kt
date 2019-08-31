@@ -4,17 +4,17 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import id.medigo.model.Profile
+import id.medigo.model.Repos
 import io.reactivex.Completable
 import io.reactivex.Maybe
 
 @Dao
-interface ProfileDao {
+interface ReposDao {
 
-    @Query("SELECT * FROM Profile LIMIT 1")
-    fun getUser(): Maybe<Profile>
+    @Query("SELECT * FROM Repos")
+    fun getRepos(): Maybe<Repos>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(profile: Profile): Completable
+    fun save(repos: List<Repos>): Completable
 
 }

@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ModularStarter</string>
+
+    <!--KEY-->
+    <string name="shared_preference_key">@string/app_name</string>
+
+</resources>

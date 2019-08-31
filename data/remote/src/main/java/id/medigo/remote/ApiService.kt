@@ -1,36 +1,42 @@
 package id.medigo.remote
 
 import id.medigo.model.Profile
+import id.medigo.model.Repos
+import io.reactivex.Maybe
 import retrofit2.http.*
 
 interface ApiService {
 
-    // Authentication
-    // -------------- //
+    /**
+     * Dumb fake api service, replace with your own
+     */
 
-    @FormUrlEncoded
-    @POST("login")
-    suspend fun login(
-        @Field("username") id: String,
-        @Field("password") password: String
-    ): Profile
+    // AUTH SERVICE
 
-    @FormUrlEncoded
-    @POST("register")
-    suspend fun register(
-        @Field("username") id: String,
-        @Field("password") password: String
-    ): Profile
+    @GET("users/{username}")
+    fun login(
+        @Path("username") id: String
+//        , @Query("password") password: String
+    ): Maybe<Profile>
 
-    // -------------- //
-    // Profile //
-    // ------- //
+    @GET("users/{username}")
+    fun register(
+        @Path("username") id: String,
+        @Query("password") password: String
+    ): Maybe<Profile>
 
-    @GET("me")
-    suspend fun getUserProfile(): Profile
+    // PROFILE SERVICE
 
-    @PUT("me")
-    suspend fun editProfile(@Body inputForm: HashMap<String, Any>): Profile
+    @GET("users/{username}")
+    fun getUserProfile(
+        @Path("username") id: String
+    ): Maybe<Profile>
 
+    // REPOS SERVICE
+
+    @GET("users/{username}/repos")
+    fun getRepos(
+        @Path("username") username: String
+    ): Maybe<MutableList<Repos>>
 
 }

@@ -12,11 +12,19 @@ data class Profile(
     @SerializedName("id")
     var id: String = "",
 
-    @SerializedName("fullName")
-    var fullName: String = "",
+    @SerializedName("login")
+    var login: String = "",
 
-    @Embedded
-    @SerializedName("address")
-    var address: ProfileAddress?
+    @SerializedName("name")
+    var name: String = "",
+
+    @SerializedName("company")
+    var company: String = "",
+
+    @SerializedName("bio")
+    var bio: String = "",
+
+    @SerializedName("avatar_url")
+    var avatar_url: String = ""
 
 )

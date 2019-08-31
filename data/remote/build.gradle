@@ -8,7 +8,11 @@ dependencies {
     implementation Libraries.gson
     implementation Libraries.retrofit
     implementation Libraries.retrofitGsonConverter
+    implementation Libraries.retrofitRxAdapter
     implementation Libraries.httpLoggingInterceptor
+    // RX
+    implementation AndroidLibraries.rxAndroid
+    implementation Libraries.rx
     // DATA MODULE
     implementation project(Modules.model)
     // KOIN

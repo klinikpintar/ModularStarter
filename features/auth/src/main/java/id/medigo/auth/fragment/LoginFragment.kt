@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import id.medigo.auth.databinding.FragmentLoginBinding
@@ -25,14 +24,6 @@ class LoginFragment: BaseFragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.toolbar.setupWithNavController(findNavController())
         return binding.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        // Add observer to _profile(MediatorLiveData) to trigger onchange
-        binding.viewmodel?.profile?.observe(viewLifecycleOwner, Observer {
-
-        })
     }
 
     override fun getViewModel(): BaseViewModel = viewModel

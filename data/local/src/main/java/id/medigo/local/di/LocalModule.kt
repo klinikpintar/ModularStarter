@@ -10,4 +10,6 @@ private const val DATABASE = "DATABASE"
 val localModule = module {
     single(named(DATABASE)) { AppDatabase.buildDatabase(androidContext()) }
     factory { (get(named(DATABASE)) as AppDatabase).profileDao() }
+    factory { (get(named(DATABASE)) as AppDatabase).preferenceDao() }
+    factory { (get(named(DATABASE)) as AppDatabase).reposDao() }
 }

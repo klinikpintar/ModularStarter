@@ -5,6 +5,10 @@ dependencies {
     // MODULES
     implementation project(Modules.remote)
     implementation project(Modules.local)
+
+    /** Used API instead of Implementation, because want the module that depend on repository
+     * module [ex. features module] got these module
+     */
     api project(Modules.model)
     // ANDROID
     implementation KotlinLibraries.kotlinCoroutineCore
@@ -13,9 +17,9 @@ dependencies {
     // KOIN
     implementation Libraries.koin
     implementation Libraries.koinViewModel
-    // KOIN
-    implementation Libraries.koin
-    implementation Libraries.koinViewModel
+    // RX
+    implementation AndroidLibraries.rxAndroid
+    implementation Libraries.rx
     // TESTS
     testImplementation TestLibraries.junit
     testImplementation TestLibraries.mockk

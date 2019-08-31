@@ -11,7 +11,7 @@ import org.koin.dsl.module
 val featureHomeModule = module {
     viewModel { HomeViewModel() }
     factory { GetProfileUseCase(get()) }
-    viewModel { HomeMainViewModel(get(),get()) }
-    viewModel { HomeSecondViewModel() }
-    viewModel { HomeThirdViewModel() }
+    viewModel { HomeMainViewModel(get(),get(),get()) }
+    viewModel { HomeSecondViewModel(get()) }
+    viewModel { HomeThirdViewModel(get()) }
 }
