@@ -16,11 +16,14 @@ dependencies {
     implementation AndroidLibraries.lifecycleExtensions
     // KOIN
     implementation Libraries.koin
+    implementation Libraries.koinCore
     implementation Libraries.koinViewModel
     // RX
     implementation AndroidLibraries.rxAndroid
     implementation Libraries.rx
     // TESTS
+    testImplementation Libraries.rx
+    testImplementation Libraries.rxRoom
     testImplementation TestLibraries.junit
     testImplementation TestLibraries.mockk
     testImplementation TestLibraries.archCoreTest

@@ -2,15 +2,11 @@ package id.medigo.auth.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import id.medigo.auth.domain.GetRegisterUseCase
-import id.medigo.auth.fragment.LoginFragmentDirections
 import id.medigo.auth.fragment.RegisterNameFragmentDirections
-import id.medigo.auth.fragment.RegisterPasswordFragmentDirections
 import id.medigo.common.base.BaseViewModel
 import id.medigo.common.utils.Event
 import id.medigo.model.Profile
 import id.medigo.navigation.NavigationCommand
-import id.medigo.repository.AppDispatchers
-import id.medigo.repository.PreferenceRepository
 import id.medigo.repository.utils.DataNetResource
 import io.reactivex.Completable
 
