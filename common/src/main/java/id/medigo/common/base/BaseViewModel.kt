@@ -6,10 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.NavDirections
 import id.medigo.common.utils.Event
 import id.medigo.navigation.NavigationCommand
-import id.medigo.repository.AppDispatchers
+import id.medigo.repository.RxSchedulers
 import id.medigo.repository.PreferenceRepository
 import io.reactivex.CompletableTransformer
-import io.reactivex.FlowableTransformer
 import io.reactivex.MaybeTransformer
 import io.reactivex.ObservableTransformer
 import io.reactivex.disposables.CompositeDisposable
@@ -20,27 +19,27 @@ import org.koin.core.inject
 abstract class BaseViewModel: ViewModel(), KoinComponent {
 
     val preferenceRepository: PreferenceRepository by inject()
-    val dispatchers: AppDispatchers by inject()
+    private val schedulers: RxSchedulers by inject()
 
     fun <T> maybeTransformer(): MaybeTransformer<T, T> = MaybeTransformer { maybe ->
-        maybe.subscribeOn(dispatchers.io)
-            .observeOn(dispatchers.main)
+        maybe.subscribeOn(schedulers.io)
+            .observeOn(schedulers.main)
             .doOnSubscribe { _loading.value = true }
             .doOnComplete { _loading.value = false }
             .doOnError { _snackbarError.value = Event(it.message?: "Something bad happen") }
     }
 
     fun <T> observableTransformer(): ObservableTransformer<T, T> = ObservableTransformer { maybe ->
-        maybe.subscribeOn(dispatchers.io)
-            .observeOn(dispatchers.main)
+        maybe.subscribeOn(schedulers.io)
+            .observeOn(schedulers.main)
             .doOnSubscribe { _loading.value = true }
             .doOnComplete { _loading.value = false }
             .doOnError { _snackbarError.value = Event(it.message?: "Something bad happen") }
     }
 
     val completableTransformer = CompletableTransformer { completable ->
-        completable.subscribeOn(dispatchers.io)
-            .observeOn(dispatchers.main)
+        completable.subscribeOn(schedulers.io)
+            .observeOn(schedulers.main)
             .doOnSubscribe { _loading.value = true }
             .doOnComplete { _loading.value = false }
             .doOnError { _snackbarError.value = Event(it.message?: "Something bad happen") }
