@@ -116,10 +116,6 @@ class UserRepositoryTest {
 
         verify(exactly = 1) { profileDataCache.storeData(any()) }
 
-        profileDataCache.result.test()
-            .assertNoErrors()
-            .assertValueCount(1)
-
         confirmVerified(subscriber)
         subscriber.dispose()
     }
