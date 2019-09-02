@@ -15,7 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 const val LOGGING_INTERCEPTOR = "LOGGING_INTERCEPTOR"
 const val HEADER_INTERCEPTOR = "HEADER_INTERCEPTOR"
 
-var remoteModule = module {
+fun remoteModule(baseUrl: String) = module {
 
     single<Interceptor>(named(LOGGING_INTERCEPTOR)) {
         val httpLoggingInterceptor = HttpLoggingInterceptor()
@@ -23,7 +23,7 @@ var remoteModule = module {
     }
 
 /**
-    Separated header interceptor (if you wanna add some Authorization or something else)
+ *  Separated header interceptor (if you wanna add some Authorization or something else)
  */
 //    single(named(HEADER_INTERCEPTOR)) {
 //        Interceptor { chain ->
@@ -45,7 +45,7 @@ var remoteModule = module {
     single {
         Retrofit.Builder()
             .client(get())
-            .baseUrl(BuildConfig.BASE_URL)
+            .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
