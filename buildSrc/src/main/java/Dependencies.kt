@@ -21,7 +21,7 @@ object Modules {
 }
 
 object Versions {
-    const val gradle = "3.4.2"
+    const val gradle = "3.5.0"
     const val safeArgs = "2.1.0-alpha01"
 
     const val compileSdk = 28
