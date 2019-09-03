@@ -1,18 +1,52 @@
 # ModularStarter
 
-Kickstart you android modular project 
+A starter for modular android project.
 
-# WORK IN PROGRESS
+## Why Modular? 
+Going modular gives you lots of benefits such as :
+- Faster build time
+- Less coupling / dependencies
+- Flexibility to adopt different architecture for different module
+- On demand feature delivery using Dynamic Module 
+
+# Structure & Concept
+
+## Main Modules
+### App
+You can basically leave this one out. App Module is now as small as possible and only used as entry point.
+### Data
+This is your module for your data source. Connect to your API, manage cache, creating entities happened here.
+### Features
+Each feature must be contained in a separate gradle module.
+### Navigation
+This is used for routing purposes, especially between modules.
+### Common
+Contains reusable classes and resources that you can use in another modules. We have already added some useful common features that you will need to start your project.
+
+
+## How to Add New Feature
+1. Setup your data source, and update relevant build / android_commons gradle file
+   Add relevant functionality in data modules (model, local, remote, repository)
+2. Add your relevant features
+   Create new module for each feature
+3. Connect your features by updating navigation module
+
+
+# THIS IS A WORK IN PROGRESS
 ## TODO
-* Write Unit test and Instrumental test
-* Add recycler view example feature
-* Write a better readme
-* Create project generator
+[ ] Write a better readme
+[ ] Screenshots
+[ ] Product flavors
+[ ] Write Unit test and Instrumental test
+[ ] Add recycler view example feature as Dynamic Module
+[ ] More utils
+[ ] Create project generator
+[ ] Define style standard
 
 ## Requirement
 * Android Lollipop (API 19) or above
 
-## Dependency
+## Dependencies
 
 ### App
 * [Jetpack](https://developer.android.com/jetpack/?gclid=CjwKCAjwtajrBRBVEiwA8w2Q8E7yXdD2mDo40oB3ZFEMv7CkG_5_yG8fogXFI6C2fYIIVHbK0KOiExoCiTIQAvD_BwE) - Jetpack is a suite of libraries, tools, and guidance to help developers write high-quality apps easier.
