@@ -24,7 +24,6 @@ import org.mockito.ArgumentMatchers.anyBoolean
 import org.mockito.ArgumentMatchers.anyString
 
 @RunWith(JUnit4::class)
-@ExperimentalCoroutinesApi
 @SmallTest
 class HomeMainUnitTests {
     @Rule
