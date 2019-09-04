@@ -2,6 +2,7 @@ package id.medigo.auth.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import id.medigo.auth.domain.GetRegisterUseCase
+import id.medigo.auth.fragment.LoginFragmentDirections
 import id.medigo.auth.fragment.RegisterNameFragmentDirections
 import id.medigo.common.base.BaseViewModel
 import id.medigo.common.utils.Event
@@ -31,27 +32,22 @@ class RegisterViewModel(
         this.disposable.add(
             this.userData.result
                 .compose(this.observableTransformer())
-                .subscribe({
+                .flatMapCompletable {
                     saveUserData(it)
+                }
+                .subscribe({
+                    navigateTo(LoginFragmentDirections.actionPopOutAuthFeature())
                 },{
                     _snackbarError.postValue(Event(it.message?: "Error"))
                 })
         )
     }
 
-    private fun saveUserData(data: Profile) {
-        this.disposable.add(
-            Completable
-                .concatArray(
-                    this.userData.storeData(data),
-                    this.preferenceRepository.setLoggedInUserId(data.login))
-                .compose(this.completableTransformer)
-                .subscribe({
-                    navigate(NavigationCommand.ClearAll)
-                },{
-                    _snackbarError.postValue(Event(it.message?: "Error"))
-                })
-        )
-    }
+    private fun saveUserData(data: Profile)
+            = Completable
+        .concatArray(
+            this.userData.storeData(data),
+            this.preferenceRepository.setLoggedInUserId(data.login))
+        .compose(this.completableTransformer)
 
 }

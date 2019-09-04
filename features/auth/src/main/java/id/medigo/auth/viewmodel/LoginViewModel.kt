@@ -23,28 +23,16 @@ class LoginViewModel(
     val password: MutableLiveData<String> = MutableLiveData()
 
     fun registerClicked() =
-            navigateTo(LoginFragmentDirections.actionLoginFragmentToRegisterFeature())
+        navigateTo(LoginFragmentDirections.actionLoginFragmentToRegisterFeature())
 
     fun loginClicked() {
         userData = this.getLoginUseCase.invoke(username.value?: "", password.value?: "")
         this.disposable.add(
             this.userData.result
                 .compose(this.observableTransformer())
-                .subscribe({
+                .flatMapCompletable {
                     saveUserData(it)
-                },{
-                    _snackbarError.postValue(Event(it.message?: "Error"))
-                })
-        )
-    }
-
-    private fun saveUserData(data: Profile) {
-        this.disposable.add(
-            Completable
-                .concatArray(
-                this.userData.storeData(data),
-                this.preferenceRepository.setLoggedInUserId(data.login))
-                .compose(this.completableTransformer)
+                }
                 .subscribe({
                     navigateTo(LoginFragmentDirections.actionPopOutAuthFeature())
                 },{
@@ -52,5 +40,12 @@ class LoginViewModel(
                 })
         )
     }
+
+    private fun saveUserData(data: Profile)
+            = Completable
+        .concatArray(
+            this.userData.storeData(data),
+            this.preferenceRepository.setLoggedInUserId(data.login))
+        .compose(this.completableTransformer)
 
 }
