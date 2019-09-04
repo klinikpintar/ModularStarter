@@ -7,12 +7,16 @@ import id.medigo.common.base.BaseViewModel
 import id.medigo.common.utils.Event
 import id.medigo.model.Profile
 import id.medigo.navigation.NavigationCommand
+import id.medigo.repository.PreferenceRepository
+import id.medigo.repository.RxSchedulers
 import id.medigo.repository.utils.DataNetResource
 import io.reactivex.Completable
 
 class RegisterViewModel(
-    private val getRegisterUseCase: GetRegisterUseCase
-): BaseViewModel(){
+    private val getRegisterUseCase: GetRegisterUseCase,
+    private val preferenceRepository: PreferenceRepository,
+    private val schedulers: RxSchedulers
+): BaseViewModel(preferenceRepository, schedulers){
 
     private lateinit var userData: DataNetResource<Profile, Profile>
 

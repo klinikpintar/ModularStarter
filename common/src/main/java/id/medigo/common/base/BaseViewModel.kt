@@ -6,20 +6,19 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.NavDirections
 import id.medigo.common.utils.Event
 import id.medigo.navigation.NavigationCommand
-import id.medigo.repository.RxSchedulers
 import id.medigo.repository.PreferenceRepository
+import id.medigo.repository.RxSchedulers
 import io.reactivex.CompletableTransformer
 import io.reactivex.MaybeTransformer
 import io.reactivex.ObservableTransformer
 import io.reactivex.disposables.CompositeDisposable
 import org.koin.core.KoinComponent
-import org.koin.core.inject
 
 
-abstract class BaseViewModel: ViewModel(), KoinComponent {
-
-    val preferenceRepository: PreferenceRepository by inject()
-    private val schedulers: RxSchedulers by inject()
+abstract class BaseViewModel(
+    private val preferenceRepository: PreferenceRepository,
+    private val schedulers: RxSchedulers
+): ViewModel(), KoinComponent {
 
     fun <T> maybeTransformer(): MaybeTransformer<T, T> = MaybeTransformer { maybe ->
         maybe.subscribeOn(schedulers.io)

@@ -9,9 +9,9 @@ import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val featureHomeModule = module {
-    viewModel { HomeViewModel() }
+    viewModel { HomeViewModel(get(),get()) }
     factory { GetProfileUseCase(get()) }
-    viewModel { HomeMainViewModel(get()) }
-    viewModel { HomeSecondViewModel() }
-    viewModel { HomeThirdViewModel() }
+    viewModel { HomeMainViewModel(get(),get(),get()) }
+    viewModel { HomeSecondViewModel(get(),get()) }
+    viewModel { HomeThirdViewModel(get(),get()) }
 }

@@ -65,7 +65,7 @@ class HomeFragment : BaseFragment(),
         return true
     }
 
-    override fun getViewModel(): BaseViewModel = HomeViewModel()
+    override fun getViewModel(): BaseViewModel = viewModel
 
     /// OnPageSelected Listener Implementation
     override fun onPageScrollStateChanged(state: Int) {}

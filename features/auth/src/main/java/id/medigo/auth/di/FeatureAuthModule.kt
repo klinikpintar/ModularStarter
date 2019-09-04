@@ -10,6 +10,6 @@ import org.koin.dsl.module
 val featureAuthModule = module {
     factory { GetLoginUseCase(get()) }
     factory { GetRegisterUseCase(get()) }
-    viewModel { LoginViewModel(get()) }
-    viewModel { RegisterViewModel(get()) }
+    viewModel { LoginViewModel(get(),get(),get()) }
+    viewModel { RegisterViewModel(get(),get(),get()) }
 }

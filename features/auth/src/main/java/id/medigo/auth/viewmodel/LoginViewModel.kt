@@ -6,12 +6,16 @@ import id.medigo.auth.fragment.LoginFragmentDirections
 import id.medigo.common.base.BaseViewModel
 import id.medigo.common.utils.Event
 import id.medigo.model.Profile
+import id.medigo.repository.PreferenceRepository
+import id.medigo.repository.RxSchedulers
 import id.medigo.repository.utils.DataNetResource
 import io.reactivex.Completable
 
 class LoginViewModel(
-    private val getLoginUseCase: GetLoginUseCase
-): BaseViewModel() {
+    private val getLoginUseCase: GetLoginUseCase,
+    private val preferenceRepository: PreferenceRepository,
+    private val schedulers: RxSchedulers
+): BaseViewModel(preferenceRepository, schedulers) {
 
     private lateinit var userData: DataNetResource<Profile, Profile>
 

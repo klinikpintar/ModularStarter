@@ -6,10 +6,15 @@ import id.medigo.common.utils.Event
 import id.medigo.home.domain.GetProfileUseCase
 import id.medigo.home.fragment.HomeFragmentDirections
 import id.medigo.model.Profile
+import id.medigo.repository.PreferenceRepository
+import id.medigo.repository.RxSchedulers
+import io.reactivex.Observable
 
 class HomeMainViewModel(
-    private val profileUseCase: GetProfileUseCase
-): BaseViewModel(){
+    private val profileUseCase: GetProfileUseCase,
+    private val preferenceRepository: PreferenceRepository,
+    private val schedulers: RxSchedulers
+): BaseViewModel(preferenceRepository, schedulers){
 
     var isAuthenticated = MutableLiveData<Boolean>()
     val profile = MutableLiveData<Profile>()
@@ -23,12 +28,22 @@ class HomeMainViewModel(
     }
 
     fun fethcDataState() {
-        this.disposable.add(
+        this.disposable.addAll(
             this.preferenceRepository.getLoggedInUserId()
                 .compose(this.maybeTransformer())
-                .subscribe({
-                    if (!it.isNullOrEmpty()) {
+                .toObservable().flatMap {
+                    if (it.isNotEmpty()) {
                         fetchUserData(it, false)
+                    } else {
+                        Observable.just(it)
+                    }
+                }
+                .subscribe({
+                    when (it){
+                        is Profile -> {
+                            isAuthenticated.postValue(true)
+                            profile.postValue(it)
+                        }
                     }
                 },{
                     _snackbarError.postValue(Event(it.message?: "Error"))
@@ -36,17 +51,9 @@ class HomeMainViewModel(
         )
     }
 
-    fun fetchUserData(username: String, shouldFetch: Boolean) {
-        this.disposable.addAll(
-            this.profileUseCase.invoke(username, shouldFetch).result
+    fun fetchUserData(username: String, shouldFetch: Boolean): Observable<Profile> {
+        return this.profileUseCase.invoke(username, shouldFetch).result
                 .compose(this.observableTransformer())
-                .subscribe({
-                    isAuthenticated.postValue(true)
-                    profile.postValue(it)
-                },{
-                    _snackbarError.postValue(Event(it.message?: "Error"))
-                })
-        )
     }
 
     fun logOutClicked(){
