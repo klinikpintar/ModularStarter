@@ -25,8 +25,8 @@ class LoginViewModel(
     fun registerClicked() =
         navigateTo(LoginFragmentDirections.actionLoginFragmentToRegisterFeature())
 
-    fun loginClicked() {
-        userData = this.getLoginUseCase.invoke(username.value?: "", password.value?: "")
+    fun loginClicked(username: String?, password: String?) {
+        userData = this.getLoginUseCase.invoke(username?: "", password?: "")
         this.disposable.add(
             this.userData.result
                 .compose(this.observableTransformer())
@@ -34,15 +34,17 @@ class LoginViewModel(
                     saveUserData(it)
                 }
                 .subscribe({
-                    navigateTo(LoginFragmentDirections.actionPopOutAuthFeature())
+                    onLogginSuccess()
                 },{
                     _snackbarError.postValue(Event(it.message?: "Error"))
                 })
         )
     }
 
-    private fun saveUserData(data: Profile)
-            = Completable
+    fun onLogginSuccess()
+            = navigateTo(LoginFragmentDirections.actionPopOutAuthFeature())
+
+    fun saveUserData(data: Profile): Completable = Completable
         .concatArray(
             this.userData.storeData(data),
             this.preferenceRepository.setLoggedInUserId(data.login))

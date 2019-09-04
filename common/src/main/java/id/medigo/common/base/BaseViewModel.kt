@@ -25,7 +25,8 @@ abstract class BaseViewModel(
             .observeOn(schedulers.main)
             .doOnSubscribe { _loading.value = true }
             .doOnComplete { _loading.value = false }
-            .doOnError { _snackbarError.value = Event(it.message?: "Something bad happen") }
+            .doOnError { _loading.value = false
+                _snackbarError.value = Event(it.message?: "Something bad happen") }
     }
 
     fun <T> observableTransformer(): ObservableTransformer<T, T> = ObservableTransformer { maybe ->
@@ -33,7 +34,8 @@ abstract class BaseViewModel(
             .observeOn(schedulers.main)
             .doOnSubscribe { _loading.value = true }
             .doOnComplete { _loading.value = false }
-            .doOnError { _snackbarError.value = Event(it.message?: "Something bad happen") }
+            .doOnError { _loading.value = false
+                _snackbarError.value = Event(it.message?: "Something bad happen") }
     }
 
     val completableTransformer = CompletableTransformer { completable ->
@@ -41,7 +43,8 @@ abstract class BaseViewModel(
             .observeOn(schedulers.main)
             .doOnSubscribe { _loading.value = true }
             .doOnComplete { _loading.value = false }
-            .doOnError { _snackbarError.value = Event(it.message?: "Something bad happen") }
+            .doOnError { _loading.value = false
+                _snackbarError.value = Event(it.message?: "Something bad happen") }
     }
 
     // FOR LOADING HANDLER
