@@ -27,7 +27,8 @@ Contains reusable classes and resources that you can use in another modules. We 
 ### How to Add New Feature
 1. Setup your data source, and update relevant build / android_commons gradle file. Add relevant functionality in data modules (model, local, remote, repository)
 2. Add your relevant features. Create new module for each feature
-3. Connect your features by updating navigation module
+4. Add your relevant features koin module and add them in App application.
+3. Connect your features by updating navigation module nav graph
 
 
 ### THIS IS A WORK IN PROGRESS
