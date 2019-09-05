@@ -54,7 +54,8 @@ Contains reusable classes and resources that you can use in another modules. We 
 * [RxJava](https://github.com/ReactiveX/RxJava) - a library for composing asynchronous and event-based programs by using observable sequences.
 * [Koin](https://insert-koin.io/) - A pragmatic lightweight dependency injection framework for Kotlin developers. Written in pure Kotlin
 * [OkHttp](https://github.com/square/okhttp/) - HTTP is the way modern applications network. It’s how we exchange data & media. Doing HTTP efficiently makes your stuff load faster and saves bandwidth.
- 
+* [Room](https://https://developer.android.com/training/data-storage/room) - Persistence library provides an abstraction layer over SQLite to allow for more robust database access while harnessing the full power of SQLite.
+
 ### Test
 * [MockK](https://mockk.io/) - mocking library for Kotlin.
 * [MockWebServer](https://github.com/square/okhttp/tree/master/mockwebserver) - A scriptable web server for testing HTTP clients
