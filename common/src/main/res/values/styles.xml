@@ -6,8 +6,33 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
 
-        <item name="panelBackground">@color/colorBackground</item>
+    <style name="Button">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:spacing">0.5dp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="Button.Primary.Light" parent="Button">
+        <item name="android:textColor">@color/button_text_white</item>
+    </style>
+
+    <style name="Button.Primary.Light.Flat" parent="Button.Primary.Light">
+        <item name="android:background">@drawable/btn_plain_accent</item>
+    </style>
+
+    <style name="Button.Primary.Light.Raised" parent="Button.Primary.Light">
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:background">@drawable/btn_raised_accent</item>
     </style>
 
 </resources>

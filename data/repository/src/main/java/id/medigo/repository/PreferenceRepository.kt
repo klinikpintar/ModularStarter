@@ -1,30 +1,20 @@
 package id.medigo.repository
 
-import id.medigo.local.dao.PreferenceDao
-import id.medigo.model.Preference
-import io.reactivex.Completable
-import io.reactivex.Maybe
+import android.content.SharedPreferences
+import id.medigo.local.dao.ProfileDao
+import kotlinx.coroutines.runBlocking
 
-interface PreferenceRepository{
-    fun getLoggedInUserId(): Maybe<String?>
-    fun setLoggedInUserId(id: String): Completable
-    fun loggedOutUser(): Completable
+interface PreferenceRepository {
+    suspend fun clear()
 }
 
 class PreferenceRepositoryImpl(
-    private val dao: PreferenceDao
-): PreferenceRepository {
+    private val pref: SharedPreferences,
+    private val profileDao: ProfileDao
+) : PreferenceRepository {
 
-    override fun getLoggedInUserId(): Maybe<String?>
-            = dao.getLoggedInUserId()
-
-    override fun setLoggedInUserId(id: String): Completable
-            = dao.savePreference(Preference("1", id))
-
-    override fun loggedOutUser(): Completable {
-        return Completable.mergeArray(
-            dao.deletePreference(),
-            dao.deleteProfile())
+    override suspend fun clear() = runBlocking {
+        pref.edit().clear().apply()
+        profileDao.deleteUser()
     }
-
 }

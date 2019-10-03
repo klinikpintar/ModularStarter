@@ -1,25 +1,29 @@
 package id.medigo.local
 
+import id.medigo.common_test.datasets.Users.FAKE_USER
 import id.medigo.local.base.BaseTest
-import id.medigo.model.Profile
+import kotlinx.coroutines.runBlocking
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Test
 
-class ProfileDaoTest: BaseTest() {
-
-    private val dummyUser = Profile("22127834","alaskariyy"
-        ,"Mahdan Al Askariyy","Medigo Indonesia","Mobile Developer at Medigo Indonesia"
-        ,"https://avatars2.githubusercontent.com/u/22127834?v=4")
+class ProfileDaoTest : BaseTest() {
 
     @Test
-    fun saveAndDeleteProfile(){
-        // Save Profile
-        database.profileDao().save(dummyUser).test().assertNoErrors()
-        // Make sure profile was saved
-        database.profileDao().getUser().test().assertValue(dummyUser)
-        // Delete profile
-        database.preferenceDao().deleteProfile().test().assertNoErrors()
-        // Make sure profile was deleted
-        database.profileDao().getUser().test().assertValueCount(0)
+    fun getSavedProfile() = runBlocking {
+        database.profileDao().save(FAKE_USER)
+        val profileResult = database.profileDao().getUser()
+
+        assertEquals(FAKE_USER, profileResult)
     }
 
+    @Test
+    fun deleteProfile() = runBlocking {
+        database.profileDao().save(FAKE_USER)
+        database.profileDao().deleteUser()
+
+        val profileResult = database.profileDao().getUser()
+
+        assertNull(profileResult)
+    }
 }

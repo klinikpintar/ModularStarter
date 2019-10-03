@@ -1,52 +1,65 @@
 package id.medigo.repository
 
+import android.content.SharedPreferences
+import androidx.lifecycle.LiveData
+import com.google.gson.Gson
 import id.medigo.local.dao.ProfileDao
 import id.medigo.model.Profile
-import id.medigo.remote.DataStore
-import id.medigo.repository.utils.DataNetResource
-import io.reactivex.Observable
+import id.medigo.remote.UserDataSource
+import id.medigo.remote.di.TOKEN
+import id.medigo.repository.utils.NetworkBoundResource
+import id.medigo.repository.utils.Resource
+import retrofit2.Response
 
 interface AuthRepository {
-    fun login(id: String, password: String, shouldSaveOnIO: Boolean = true): DataNetResource<Profile, Profile>
-    fun register(id: String, password: String, shouldSaveOnIO: Boolean = true): DataNetResource<Profile, Profile>
+    suspend fun login(id: String, password: String): LiveData<Resource<Profile>>
+    suspend fun register(id: String, password: String): LiveData<Resource<Profile>>
 }
 
 class AuthRepositoryImpl(
-    private val dataStore: DataStore,
-    private val profileDao: ProfileDao
+    private val dataSource: UserDataSource,
+    private val dao: ProfileDao,
+    private val pref: SharedPreferences,
+    private val gson: Gson
 ): AuthRepository{
 
-    override fun login(id: String, password: String, shouldSaveOnIO: Boolean): DataNetResource<Profile, Profile> {
-        return object : DataNetResource<Profile, Profile>(){
-            override fun processResponse(response: Profile): Profile
-                    = response
+    override suspend fun login(id: String, password: String): LiveData<Resource<Profile>> {
+        return object : NetworkBoundResource<Profile, Profile>(gson){
+            override fun processResponse(response: Profile): Profile =
+                response
 
-            override fun saveCallResults(data: Profile)
-                    = profileDao.save(data)
+            override suspend fun saveCallResults(data: Profile) {
+                pref.edit().putString(TOKEN, data.token).apply()
+                dao.save(data)
+            }
 
-            override fun shouldSaveOnIO(): Boolean
-                    = shouldSaveOnIO
+            override fun shouldFetch(data: Profile?): Boolean = true
 
-            override fun createCall(): Observable<Profile>
-                    = dataStore.postLogin(id, password).toObservable()
+            override suspend fun loadFromDb(): Profile? =
+                dao.getUser()
 
-        }.build()
+            override suspend fun createCallAsync(): Response<Profile> =
+                dataSource.postLogin(id, password)
+        }.build().asLiveData()
     }
 
-    override fun register(id: String, password: String, shouldSaveOnIO: Boolean): DataNetResource<Profile, Profile> {
-        return object : DataNetResource<Profile,Profile>(){
-            override fun processResponse(response: Profile): Profile
-                    = response
+    override suspend fun register(id: String, password: String): LiveData<Resource<Profile>> {
+        return object : NetworkBoundResource<Profile, Profile>(gson){
+            override fun processResponse(response: Profile): Profile =
+                response
 
-            override fun saveCallResults(data: Profile)
-                    = profileDao.save(data)
+            override suspend fun saveCallResults(data: Profile) {
+                pref.edit().putString(TOKEN, data.token).apply()
+                dao.save(data)
+            }
 
-            override fun shouldSaveOnIO(): Boolean
-                    = shouldSaveOnIO
+            override fun shouldFetch(data: Profile?): Boolean = true
 
-            override fun createCall(): Observable<Profile>
-                    = dataStore.postRegistration(id, password).toObservable()
+            override suspend fun loadFromDb(): Profile? =
+                dao.getUser()
 
-        }.build()
+            override suspend fun createCallAsync(): Response<Profile> =
+                dataSource.postRegistration(id, password)
+        }.build().asLiveData()
     }
 }

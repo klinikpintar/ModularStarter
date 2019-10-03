@@ -13,6 +13,7 @@ import org.koin.core.module.Module
  */
 
 val appComponent :List<Module> = listOf(
+    sharedPreferenceModule,
     remoteModule(BuildConfig.BASE_URL),
     localModule,
     repositoryModule,

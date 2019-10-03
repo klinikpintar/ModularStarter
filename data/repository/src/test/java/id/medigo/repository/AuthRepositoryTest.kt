@@ -1,70 +1,92 @@
 package id.medigo.repository
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import android.accounts.NetworkErrorException
+import androidx.lifecycle.Observer
+import id.medigo.common_test.datasets.Users.FAKE_USER
 import id.medigo.local.dao.ProfileDao
+import id.medigo.model.ErrorResponse
 import id.medigo.model.Profile
-import id.medigo.remote.DataStore
-import id.medigo.repository.utils.DataNetResource
-import io.mockk.*
-import io.reactivex.Maybe
-import io.reactivex.observers.TestObserver
+import id.medigo.remote.UserDataSource
+import id.medigo.repository.base.BaseTest
+import id.medigo.repository.utils.Resource
+import io.mockk.coEvery
+import io.mockk.confirmVerified
+import io.mockk.mockk
+import io.mockk.verifyOrder
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.runBlocking
+import okhttp3.MediaType
+import okhttp3.ResponseBody
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
-import org.mockito.ArgumentMatchers.anyString
+import retrofit2.Response
 
-class AuthRepositoryTest {
+@ExperimentalCoroutinesApi
+class AuthRepositoryTest : BaseTest() {
 
-    @get:Rule
-    val instantExecutorRule = InstantTaskExecutorRule()
+    private var dataSource = mockk<UserDataSource>(relaxed = true)
+    private var dao = mockk<ProfileDao>(relaxed = true)
+    private var profileObserver: Observer<Resource<Profile>> = mockk(relaxed = true)
 
-    private val dao = mockk<ProfileDao>(relaxed = true)
-    private val dataStore = mockk<DataStore>()
     private lateinit var authRepository: AuthRepository
-    private lateinit var authDataCache: DataNetResource<Profile, Profile>
-
-    private var subscriber = mockk<TestObserver<Profile>>(relaxed = true)
 
     @Before
-    fun setup(){
-        authRepository = AuthRepositoryImpl(dataStore, dao)
+    fun setup() {
+        authRepository = AuthRepositoryImpl(dataSource, dao, pref, gson)
     }
 
     @Test
-    fun `when user login and shouldSaveOnIO`() {
-        every { dataStore.postLogin(any(),any()) } returns Maybe.just(Profile())
+    fun `when no internet`() {
+        val exception = NetworkErrorException()
+        coEvery { dataSource.postLogin("", "") } throws exception
+        coEvery { dao.getUser() } returns null
 
-        authDataCache = authRepository.login(anyString(), anyString(), true)
-        authDataCache.result.subscribe(subscriber)
+        runBlocking { authRepository.login("", "").observeForever(profileObserver) }
 
         verifyOrder {
-            subscriber.onSubscribe(any())
-            subscriber.onNext(Profile()) // ResultType and RequestType are same
-            subscriber.onComplete()
+            profileObserver.onChanged(Resource.loading(null))
+            profileObserver.onChanged(Resource.error(ErrorResponse(message = "Tidak ada koneksi internet"), null))
         }
 
-        verify(exactly = 1) { authDataCache.storeData(any()) }
-
-        confirmVerified(subscriber)
-        subscriber.dispose()
+        confirmVerified(profileObserver)
     }
 
     @Test
-    fun `when user login and not shouldSaveOnIO`() {
-        every { dataStore.postLogin(any(),any()) } returns Maybe.just(Profile())
+    fun `when user login success`() {
+        coEvery { dataSource.postLogin("", "") } returns Response.success(FAKE_USER)
+        coEvery { dao.getUser() } returns null andThen FAKE_USER
 
-        authDataCache = authRepository.login(anyString(), anyString(), false)
-        authDataCache.result.subscribe(subscriber)
-
-        verifyOrder {
-            subscriber.onSubscribe(any())
-            subscriber.onNext(Profile()) // ResultType and RequestType are same
-            subscriber.onComplete()
+        runBlocking {
+            authRepository.login("", "").observeForever(profileObserver)
         }
 
-        verify(exactly = 0) { authDataCache.storeData(any()) }
+        verifyOrder {
+            profileObserver.onChanged(Resource.loading(null))
+            profileObserver.onChanged(Resource.success(FAKE_USER))
+        }
 
-        confirmVerified(subscriber)
-        subscriber.dispose()
+        confirmVerified(profileObserver)
+    }
+
+    @Test
+    fun `when user login failed (wrong credential)`() {
+        coEvery { dataSource.postLogin("", "") } returns
+                Response.error(400, ResponseBody.create(MediaType.parse("application/json; charset=utf-8"),
+                    """
+                        {
+                            "code": "bad_request",
+                            "message": "Kombinasi nomor telepon dan password tidak sesuai"
+                        }
+                    """.trimIndent()))
+        coEvery { dao.getUser() } returns null
+
+        runBlocking { authRepository.login("", "").observeForever(profileObserver) }
+
+        verifyOrder {
+            profileObserver.onChanged(Resource.loading(null))
+            profileObserver.onChanged(Resource.error(ErrorResponse(400, message = "Kombinasi nomor telepon dan password tidak sesuai"), null))
+        }
+
+        confirmVerified(profileObserver)
     }
 }

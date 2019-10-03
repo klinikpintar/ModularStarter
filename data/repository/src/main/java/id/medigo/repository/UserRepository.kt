@@ -1,46 +1,50 @@
 package id.medigo.repository
 
+import android.content.SharedPreferences
+import androidx.lifecycle.LiveData
+import com.google.gson.Gson
 import id.medigo.local.dao.ProfileDao
 import id.medigo.model.Profile
-import id.medigo.remote.DataStore
-import id.medigo.repository.utils.DataCacheResource
-import io.reactivex.Observable
+import id.medigo.remote.UserDataSource
+import id.medigo.remote.di.TOKEN
+import id.medigo.repository.utils.NetworkBoundResource
+import id.medigo.repository.utils.Resource
+import retrofit2.Response
 
 interface UserRepository {
-    fun getProfileWithCache(
-        username: String,
-        shouldFetch: Boolean = true,
-        shouldSaveOnIO: Boolean = true
-    ): DataCacheResource<Profile, Profile>
+    suspend fun getProfileWithCache(
+        shouldFetch: Boolean = true
+    ): LiveData<Resource<Profile>>
 }
 
 class UserRepositoryImpl(
-    private val dataSource: DataStore,
-    private val dao: ProfileDao
+    private val dataSource: UserDataSource,
+    private val dao: ProfileDao,
+    private val pref: SharedPreferences,
+    private val gson: Gson
 ): UserRepository {
+    override suspend fun getProfileWithCache(
+        shouldFetch: Boolean
+    ): LiveData<Resource<Profile>> {
+        return object : NetworkBoundResource<Profile, Profile>(gson){
+            override fun processResponse(response: Profile): Profile =
+                response
 
-    override fun getProfileWithCache(username: String, shouldFetch: Boolean, shouldSaveOnIO: Boolean): DataCacheResource<Profile, Profile> {
-        return object : DataCacheResource<Profile, Profile>(){
-
-            override fun processResponse(response: Profile): Profile
-                    = response
-
-            override fun saveCallResults(data: Profile)
-                    = dao.save(data)
+            override suspend fun saveCallResults(data: Profile) {
+                pref.edit().putString(TOKEN, data.token).apply()
+                dao.save(data)
+            }
 
             override fun shouldFetch(data: Profile?): Boolean
                     = data == null || shouldFetch
 
-            override fun shouldSaveOnIO(): Boolean
-                    = shouldSaveOnIO
+            override suspend fun loadFromDb(): Profile? =
+                dao.getUser()
 
-            override fun loadFromDb(): Observable<Profile>
-                    = dao.getUser().toObservable()
-
-            override fun createCall(): Observable<Profile>
-                    = dataSource.fetchUser(username).toObservable()
-
-        }.build()
+            override suspend fun createCallAsync(): Response<Profile> =
+                dataSource.fetchUser()
+        }.build().asLiveData()
     }
+
 
 }

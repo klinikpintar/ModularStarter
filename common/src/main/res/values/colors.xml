@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">@color/white</color>
+    <color name="colorPrimaryDark">@color/lightergrey</color>
+    <color name="colorAccent">@color/accent1</color>
 
-    <color name="colorBackground">#FAFAFA</color>
+    <color name="primary">#046e89</color>
+    <color name="primary_op_10">#1A046e89</color>
+    <color name="accent1">#24e2cf</color>
+    <color name="accent1light">#d8f4f2</color>
+    <color name="accent1lighter">#f5f8f9</color>
+    <color name="accent2">#1ab1e5</color>
+    <color name="accent2light">#f1fbfd</color>
+    <color name="black">#222222</color>
+    <color name="darkgrey">#757575</color>
+    <color name="mediumgrey">#bbbbbb</color>
+    <color name="lightgrey">#dddddd</color>
+    <color name="lightergrey">#f0f0f0</color>
+    <color name="lightestgrey">#FDFDFD</color>
+    <color name="white">#ffffff</color>
+    <color name="error">#db0062</color>
+    <color name="caution">#ffa332</color>
+    <color name="caution_op">#1AFFA332</color>
+    <color name="placeholder">#d8d8d8</color>
 
-    <color name="bottomNavChecked">@color/colorPrimary</color>
-    <color name="bottomNavUnchecked">#BABABA</color>
+    <color name="shadow">#3d000000</color>
 </resources>

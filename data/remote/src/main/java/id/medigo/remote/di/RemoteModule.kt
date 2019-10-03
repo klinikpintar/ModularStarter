@@ -1,19 +1,22 @@
 package id.medigo.remote.di
 
-import id.medigo.remote.ApiService
-import id.medigo.remote.BuildConfig
-import id.medigo.remote.DataStore
+import com.google.gson.GsonBuilder
+import id.medigo.remote.UserDataSource
+import id.medigo.remote.Utils.Constants.TIMEOUT
+import id.medigo.remote.Utils.Key
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
+import id.medigo.remote.api.UserService
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 const val LOGGING_INTERCEPTOR = "LOGGING_INTERCEPTOR"
 const val HEADER_INTERCEPTOR = "HEADER_INTERCEPTOR"
+const val TOKEN = "TOKEN"
 
 fun remoteModule(baseUrl: String) = module {
 
@@ -22,36 +25,38 @@ fun remoteModule(baseUrl: String) = module {
         httpLoggingInterceptor.apply { level = HttpLoggingInterceptor.Level.HEADERS }
     }
 
-/**
- *  Separated header interceptor (if you wanna add some Authorization or something else)
- */
-//    single(named(HEADER_INTERCEPTOR)) {
-//        Interceptor { chain ->
-//            val lOriginalRequest = chain.request()
-//            val lRequest = lOriginalRequest.newBuilder()
-//                .header("Authorization", String.format("Bearer ","YOUR_TOKEN"))
-//                .method(lOriginalRequest.method(), lOriginalRequest.body()).build()
-//
-//            chain.proceed(lRequest)
-//        }
-//    }
+    single(named(HEADER_INTERCEPTOR)) {
+        ServiceInterceptor(get())
+    }
+
+    single {
+        GsonBuilder()
+            .registerTypeAdapterFactory(DataTypeAdapterFactory())
+            .setDateFormat(Key.fmt_date)
+            .setLenient()
+            .create()
+    }
 
     factory {
         OkHttpClient.Builder()
+            .connectTimeout(TIMEOUT, TimeUnit.SECONDS)
+            .writeTimeout(TIMEOUT, TimeUnit.SECONDS)
+            .readTimeout(TIMEOUT, TimeUnit.SECONDS)
             .addInterceptor(get(named(LOGGING_INTERCEPTOR)))
-//            .addInterceptor(get(named(HEADER_INTERCEPTOR)))
-            .build() }
+            .addInterceptor(get(named(HEADER_INTERCEPTOR)))
+            .retryOnConnectionFailure(true)
+            .build()
+    }
 
     single {
         Retrofit.Builder()
             .client(get())
             .baseUrl(baseUrl)
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(get()))
             .build()
     }
 
-    factory{ get<Retrofit>().create(ApiService::class.java) }
+    factory{ get<Retrofit>().create(UserService::class.java) }
 
-    factory { DataStore(get()) }
+    factory { UserDataSource(get()) }
 }

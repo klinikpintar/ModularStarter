@@ -28,7 +28,7 @@ class HomeMainFragment: BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        binding.viewmodel?.fethcDataState()
+        binding.viewmodel?.fethcDataState(false)
     }
 
     override fun getViewModel(): BaseViewModel = viewModel

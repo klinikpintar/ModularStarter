@@ -1,6 +1,7 @@
 package id.medigo.common.extension
 
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
@@ -24,4 +25,15 @@ fun Fragment.setupSnackbar(lifecycleOwner: LifecycleOwner, snackbarEvent: LiveDa
             showSnackbar(res, timeLength)
         }
     })
+}
+
+fun Fragment.showWarningDialog(title: String = "", message: String = "") {
+    activity?.let {
+        val dialog = AlertDialog.Builder(it)
+        dialog.setMessage(message)
+            .setCancelable(false)
+            .setPositiveButton("Oke") { _, _ -> }
+        if (title.isNotEmpty()) dialog.setTitle(title)
+        dialog.show()
+    }
 }

@@ -5,16 +5,17 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import id.medigo.model.Repos
-import io.reactivex.Completable
-import io.reactivex.Maybe
 
 @Dao
 interface ReposDao {
 
     @Query("SELECT * FROM Repos")
-    fun getRepos(): Maybe<Repos>
+    suspend fun getRepos(): Repos
+
+    @Query("DELETE FROM Repos")
+    suspend fun deleteRepos()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(repos: List<Repos>): Completable
+    suspend fun save(repos: List<Repos>)
 
 }

@@ -10,11 +10,12 @@
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:orientation="vertical"
-			android:background="@color/colorBackground">
+			android:background="@color/lightergrey">
 		
 		<androidx.appcompat.widget.Toolbar
 				android:id="@+id/toolbar"
 				app:title="Second"
+				app:titleTextColor="@color/primary"
 				android:background="@color/colorPrimary"
 				android:layout_width="match_parent"
 				android:layout_height="56dp"/>
@@ -22,7 +23,6 @@
 		<TextView android:layout_width="match_parent" android:layout_height="match_parent"
 				  android:text="SECOND"
 				  android:textColor="#444444"
-				  android:background="#ffffff"
 				  android:gravity="center"/>
 	
 	</androidx.appcompat.widget.LinearLayoutCompat>

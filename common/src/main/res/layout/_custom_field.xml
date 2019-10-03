@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/ctv_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="12sp"
+            android:textColor="@color/black"
+            tools:text="@tools:sample/lorem"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:passwordToggleEnabled="true"
+            app:hintAnimationEnabled="false"
+            app:hintEnabled="false">
+
+        <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/cet_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="-4dp"
+                android:layout_marginStart="-4dp"
+                android:includeFontPadding="false"
+                android:imeOptions="actionDone"
+                android:textSize="16sp"
+                android:textColorHint="@color/mediumgrey"
+                android:textColor="@color/black"
+                tools:hint="@tools:sample/lorem"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/ctv_helper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="@color/darkgrey"
+                tools:text="@tools:sample/lorem"
+                android:layout_toStartOf="@id/ctv_text_length"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/ctv_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="@color/error"
+                android:visibility="gone"
+                android:layout_toStartOf="@id/ctv_text_length"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/ctv_text_length"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:textSize="12sp"
+                android:visibility="gone"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/aciv_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                app:srcCompat="@drawable/ic_warning"
+                android:visibility="gone"/>
+
+    </RelativeLayout>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

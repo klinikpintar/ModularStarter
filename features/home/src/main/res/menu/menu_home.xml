@@ -3,16 +3,16 @@
 	
 	<item
 			android:id="@+id/home_main"
-			android:icon="@drawable/ic_home_black_24dp"
+			android:icon="@drawable/ic_home"
 			android:title="First" />
 	
 	<item
 			android:id="@+id/home_second"
-			android:icon="@drawable/ic_dashboard_black_24dp"
+			android:icon="@drawable/ic_content_paste"
 			android:title="Second" />
 	
 	<item
 			android:id="@+id/home_third"
-			android:icon="@drawable/ic_notifications_black_24dp"
+			android:icon="@drawable/ic_local_convenience_store"
 			android:title="Third" />
 </menu>

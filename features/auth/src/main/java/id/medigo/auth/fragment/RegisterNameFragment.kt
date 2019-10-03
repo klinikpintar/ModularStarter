@@ -22,7 +22,7 @@ class RegisterNameFragment: BaseFragment(){
         binding = FragmentRegisterNameBinding.inflate(inflater, container, false)
         binding.viewmodel = registerViewModel
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.toolbar.setupWithNavController(findNavController())
+        binding.toolbar.init()
         return binding.root
     }
 

@@ -1,11 +1,19 @@
 apply plugin: 'com.android.library'
 apply from: '../android_commons.gradle'
 
+android {
+    dataBinding {
+        enabled true
+    }
+}
+
 dependencies {
-    implementation Libraries.rxKotlin
     implementation AndroidLibraries.appCompat
     implementation AndroidLibraries.navigation
     implementation AndroidLibraries.navigationFrag
+    implementation AndroidLibraries.gcm
+    implementation AndroidLibraries.maps
+    implementation AndroidLibraries.location
     implementation project(Modules.navigation)
 
     api project(Modules.repository)
@@ -14,8 +22,7 @@ dependencies {
     api Libraries.koin
     api Libraries.koinCore
     api Libraries.koinViewModel
-    // RX
-    api AndroidLibraries.rxAndroid
-    api Libraries.rxKotlin
-    api Libraries.rx
+    // ANDROID
+    api AndroidLibraries.lifecycleViewModel
+    api AndroidLibraries.lifecycleExtensions
 }

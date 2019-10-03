@@ -13,30 +13,28 @@
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:orientation="vertical"
-			android:background="@color/colorBackground">
+			android:background="@color/accent1light">
 
 		<androidx.appcompat.widget.Toolbar
 				android:id="@+id/toolbar"
 				android:layout_width="match_parent"
 				android:background="@color/colorPrimary"
 				app:title="Main"
+				app:titleTextColor="@color/primary"
 				android:layout_height="56dp"/>
 
-		<RelativeLayout
+		<id.co.flipbox.sosoito.LoadingLayout
+				android:id="@+id/loadingLayout"
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
 				android:gravity="center">
-
-			<ProgressBar
-					android:visibility="@{viewmodel.loading ? view.VISIBLE : view.GONE}"
-					android:layout_width="48dp"
-					android:layout_height="48dp" />
 
 			<androidx.appcompat.widget.LinearLayoutCompat
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:orientation="vertical"
-					android:visibility="@{viewmodel.isAuthenticated ? view.VISIBLE : view.GONE}">
+					android:gravity="center_horizontal"
+					android:visibility="@{viewmodel.profile != null ? view.VISIBLE : view.GONE}">
 
 				<TextView
 						android:layout_width="wrap_content"
@@ -49,6 +47,8 @@
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:text="Logout"
+						android:layout_marginTop="8dp"
+						style="@style/Button.Primary.Light.Raised"
 						android:onClick="@{() -> viewmodel.logOutClicked()}"/>
 
 			</androidx.appcompat.widget.LinearLayoutCompat>
@@ -57,23 +57,27 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:orientation="vertical"
-					android:visibility="@{viewmodel.isAuthenticated ? view.GONE : view.VISIBLE}">
+					android:gravity="center_horizontal"
+					android:visibility="@{viewmodel.profile != null ? view.GONE : view.VISIBLE}">
 
 				<Button
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:onClick="@{() -> viewmodel.loginButonClicked()}"
-						android:text="Login"/>
+						android:text="Login"
+						style="@style/Button.Primary.Light.Raised"/>
 
 				<Button
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
+						android:layout_marginTop="8dp"
 						android:onClick="@{() -> viewmodel.registerButtonClicked()}"
-						android:text="Register"/>
+						android:text="Register"
+						style="@style/Button.Primary.Light.Raised"/>
 
 			</androidx.appcompat.widget.LinearLayoutCompat>
 
-		</RelativeLayout>
+		</id.co.flipbox.sosoito.LoadingLayout>
 
 	</androidx.appcompat.widget.LinearLayoutCompat>
 

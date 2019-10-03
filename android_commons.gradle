@@ -1,5 +1,6 @@
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion Versions.compileSdk
@@ -8,6 +9,8 @@ android {
         targetSdkVersion Versions.targetSdk
         versionCode Releases.versionCode
         versionName Releases.versionName
+        vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
         buildConfigField 'String', 'BASE_URL', '"https://api.github.com/"'
     }
     buildTypes {
@@ -26,4 +29,6 @@ android {
 
 dependencies {
     implementation KotlinLibraries.kotlin
+    // MULTIDEX
+    implementation Libraries.multidex
 }

@@ -23,14 +23,20 @@ object Modules {
 object Versions {
     const val gradle = "3.5.0"
     const val safeArgs = "2.1.0-alpha01"
+    const val multidex = "2.0.1"
 
     const val compileSdk = 28
     const val minSdk = 19
     const val targetSdk = 28
 
     const val kotlin = "1.3.50"
-    const val coroutines = "1.3.0"
+    const val coroutines = "1.1.1"
 
+    const val playService = "17.0.0"
+
+    const val core = "1.0.1"
+    const val activity = "1.0.0"
+    const val fragment = "1.1.0"
     const val coreKtx = "1.0.1"
     const val constraintLayout = "1.1.3"
     const val recyclerview = "1.0.0"
@@ -38,7 +44,7 @@ object Versions {
 
     const val koin = "2.0.1"
 
-    const val appCompat = "1.0.2"
+    const val appCompat = "1.1.0"
     const val nav = "2.0.0"
 
     const val room = "2.1.0"
@@ -46,10 +52,7 @@ object Versions {
     const val gson = "2.8.5"
     const val okHttp = "3.12.1"
     const val retrofit = "2.6.1"
-    const val rxAndroid = "2.1.1"
-    const val rxRoom = "2.1.0"
-    const val rxKotlin = "2.4.0"
-    const val rx = "2.2.12"
+    const val json = "20190722"
 
     const val lifecycle = "2.1.0-alpha04"
 
@@ -61,6 +64,12 @@ object Versions {
     const val mockk = "1.9.2"
     const val fragmentTest = "1.1.0-alpha06"
     const val databinding = "3.3.2"
+
+    const val material = "3.1.1"
+    const val sosoito  = "v1.0.3"
+    const val easyPermission = "3.0.0"
+    const val glide = "4.9.0"
+    const val glideProcessor = "4.8.0"
 }
 
 object Libraries {
@@ -76,11 +85,20 @@ object Libraries {
     const val gson = "com.google.code.gson:gson:${Versions.gson}"
     const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
     const val retrofitGsonConverter = "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"
-    const val retrofitRxAdapter ="com.squareup.retrofit2:adapter-rxjava2:${Versions.retrofit}"
     const val httpLoggingInterceptor = "com.squareup.okhttp3:logging-interceptor:${Versions.okHttp}"
-    const val rx = "io.reactivex.rxjava2:rxjava:${Versions.rx}"
-    const val rxKotlin = "io.reactivex.rxjava2:rxkotlin:${Versions.rxKotlin}"
-    const val rxRoom = "androidx.room:room-rxjava2:${Versions.rxRoom}"
+    // MULTIDEX
+    const val multidex = "androidx.multidex:multidex:${Versions.multidex}"
+    // EASY PERMISSION
+    const val easyPermission = "pub.devrel:easypermissions:${Versions.easyPermission}"
+    // MATERIAL
+    const val material = "com.afollestad.material-dialogs:core:${Versions.material}"
+    // SOSITO
+    const val sosoito = "com.github.flipboxstudio:sosoito:${Versions.sosoito}"
+    // Image Loader
+    const val glide = "com.github.bumptech.glide:glide:${Versions.glide}"
+    const val glideProcessor = "com.github.bumptech.glide:compiler:${Versions.glideProcessor}"
+    // JSON
+    const val json = "org.json:json:${Versions.json}"
 }
 
 object AndroidLibraries {
@@ -88,16 +106,23 @@ object AndroidLibraries {
     const val kotlinCoroutineAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
     // ANDROID
     const val appCompat = "androidx.appcompat:appcompat:${Versions.appCompat}"
-    const val coreKtx = "androidx.core:core-ktx:${Versions.coreKtx}"
+    const val coreKtx = "androidx.core:core-ktx:${Versions.core}"
+    const val core = "androidx.core:core:${Versions.core}"
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
     const val lifecycleViewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
     const val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:${Versions.lifecycle}"
+    const val activity = "androidx.activity:activity:${Versions.activity}"
+    const val activityKtx = "androidx.activity:activity-ktx:${Versions.activity}"
+    const val fragment = "androidx.fragment:fragment:${Versions.fragment}"
+    const val fragmentKtx = "androidx.fragment:fragment-ktx:${Versions.fragment}"
     const val recyclerView = "androidx.recyclerview:recyclerview:${Versions.recyclerview}"
     const val cardView = "androidx.cardview:cardview:${Versions.cardView}"
     const val navigation = "androidx.navigation:navigation-ui-ktx:${Versions.nav}"
     const val navigationFrag = "androidx.navigation:navigation-fragment-ktx:${Versions.nav}"
-    // RX
-    const val rxAndroid = "io.reactivex.rxjava2:rxandroid:${Versions.rxAndroid}"
+
+    const val gcm = "com.google.android.gms:play-services-gcm:${Versions.playService}"
+    const val maps = "com.google.android.gms:play-services-maps:${Versions.playService}"
+    const val location = "com.google.android.gms:play-services-location:${Versions.playService}"
 }
 
 object KotlinLibraries {

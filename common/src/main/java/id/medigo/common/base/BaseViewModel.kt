@@ -3,80 +3,32 @@ package id.medigo.common.base
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
+import id.medigo.common.utils.ErrorHandler
 import id.medigo.common.utils.Event
 import id.medigo.navigation.NavigationCommand
 import id.medigo.repository.PreferenceRepository
-import id.medigo.repository.RxSchedulers
-import io.reactivex.CompletableTransformer
-import io.reactivex.MaybeTransformer
-import io.reactivex.ObservableTransformer
-import io.reactivex.disposables.CompositeDisposable
-import org.koin.core.KoinComponent
+import id.medigo.repository.utils.AppDispatchers
+import kotlinx.coroutines.launch
 
 
 abstract class BaseViewModel(
     private val preferenceRepository: PreferenceRepository,
-    private val schedulers: RxSchedulers
-): ViewModel(), KoinComponent {
-
-    fun <T> maybeTransformer(): MaybeTransformer<T, T> = MaybeTransformer { maybe ->
-        maybe.subscribeOn(schedulers.io)
-            .observeOn(schedulers.main)
-            .doOnSubscribe { _loading.value = true }
-            .doOnComplete { _loading.value = false }
-            .doOnError { _loading.value = false
-                _snackbarError.value = Event(it.message?: "Something bad happen") }
-    }
-
-    fun <T> observableTransformer(): ObservableTransformer<T, T> = ObservableTransformer { maybe ->
-        maybe.subscribeOn(schedulers.io)
-            .observeOn(schedulers.main)
-            .doOnSubscribe { _loading.value = true }
-            .doOnComplete { _loading.value = false }
-            .doOnError { _loading.value = false
-                _snackbarError.value = Event(it.message?: "Something bad happen") }
-    }
-
-    val completableTransformer = CompletableTransformer { completable ->
-        completable.subscribeOn(schedulers.io)
-            .observeOn(schedulers.main)
-            .doOnSubscribe { _loading.value = true }
-            .doOnComplete { _loading.value = false }
-            .doOnError { _loading.value = false
-                _snackbarError.value = Event(it.message?: "Something bad happen") }
-    }
-
-    // FOR LOADING HANDLER
-    protected val _loading =  MutableLiveData<Boolean>()
-    val loading: LiveData<Boolean> get() = _loading
+    private val dispatchers: AppDispatchers
+): ViewModel() {
 
     // FOR ERROR HANDLER
-    protected val _snackbarError = MutableLiveData<Event<String>>()
-    val snackBarError: LiveData<Event<String>> get() = _snackbarError
+    protected val _errorHandler = MutableLiveData<Event<ErrorHandler>>()
+    val errorHandler: LiveData<Event<ErrorHandler>> get() = _errorHandler
 
     // FOR NAVIGATION
     private val _navigation = MutableLiveData<Event<NavigationCommand>>()
     val navigation: LiveData<Event<NavigationCommand>> = _navigation
 
-    protected var disposable: CompositeDisposable = CompositeDisposable()
-
-    override fun onCleared() {
-        this.disposable.dispose()
-        super.onCleared()
-    }
-
-    fun logout(isFromHome: Boolean = false, func: (() -> Unit)? = null){
-        this.disposable.add(
-            this.preferenceRepository.loggedOutUser()
-                .compose(completableTransformer)
-                .subscribe({
-                    func?.invoke()
-                    if (!isFromHome) navigate(NavigationCommand.ClearAll)
-                },{
-                    _snackbarError.postValue(Event(it.message?: "Error"))
-                })
-        )
+    fun forceLogout() = viewModelScope.launch(dispatchers.main) {
+        preferenceRepository.clear()
+        navigate(NavigationCommand.ClearAll)
     }
 
     /**

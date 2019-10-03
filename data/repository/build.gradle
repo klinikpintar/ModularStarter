@@ -18,12 +18,11 @@ dependencies {
     implementation Libraries.koin
     implementation Libraries.koinCore
     implementation Libraries.koinViewModel
-    // RX
-    implementation AndroidLibraries.rxAndroid
-    implementation Libraries.rx
+    // RETROFIT
+    implementation Libraries.retrofit
+    implementation Libraries.gson
+    implementation Libraries.json
     // TESTS
-    testImplementation Libraries.rx
-    testImplementation Libraries.rxRoom
     testImplementation TestLibraries.junit
     testImplementation TestLibraries.mockk
     testImplementation TestLibraries.archCoreTest

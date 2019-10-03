@@ -1,6 +1,5 @@
 package id.medigo.model
 
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
@@ -25,6 +24,9 @@ data class Profile(
     var bio: String = "",
 
     @SerializedName("avatar_url")
-    var avatar_url: String = ""
+    var avatar_url: String = "",
+
+    @SerializedName("token")
+    var token: String = ""
 
 )

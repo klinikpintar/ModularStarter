@@ -8,17 +8,17 @@ dependencies {
     implementation Libraries.gson
     implementation Libraries.retrofit
     implementation Libraries.retrofitGsonConverter
-    implementation Libraries.retrofitRxAdapter
     implementation Libraries.httpLoggingInterceptor
-    // RX
-    implementation AndroidLibraries.rxAndroid
-    implementation Libraries.rx
+    // TEST MODULE
+    testImplementation project(Modules.commonTest)
     // DATA MODULE
     implementation project(Modules.model)
     // KOIN
     implementation Libraries.koin
     implementation Libraries.koinViewModel
     // TEST
+    testImplementation TestLibraries.mockk
+    testImplementation TestLibraries.coroutine
     testImplementation TestLibraries.junit
     testImplementation TestLibraries.koin
     testImplementation TestLibraries.mockWebServer

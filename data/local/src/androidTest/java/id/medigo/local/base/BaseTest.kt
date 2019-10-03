@@ -50,7 +50,6 @@ abstract class BaseTest: KoinTest {
         }
         factory { (get(named(DATABASE)) as AppDatabase).profileDao() }
         factory { (get(named(DATABASE)) as AppDatabase).reposDao() }
-        factory { (get(named(DATABASE)) as AppDatabase).preferenceDao() }
     }
 
 }

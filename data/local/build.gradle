@@ -19,10 +19,8 @@ dependencies {
     // KOIN
     implementation Libraries.koin
     implementation Libraries.koinViewModel
-    // RX
-    implementation AndroidLibraries.rxAndroid
-    implementation Libraries.rx
-    implementation Libraries.rxRoom
+    // TEST MODULE
+    androidTestImplementation project(Modules.commonTest)
     // TEST
     androidTestImplementation TestLibraries.androidTestRunner
     androidTestImplementation TestLibraries.junit

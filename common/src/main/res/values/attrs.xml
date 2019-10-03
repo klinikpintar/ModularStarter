@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CustomField">
+        <attr name="inputType" format="enum">
+            <enum name="normal" value="0"/>
+            <enum name="phoneNumber" value="1"/>
+            <enum name="email" value="2"/>
+            <enum name="password" value="3"/>
+            <enum name="textPersonName" value="4"/>
+        </attr>
+        <attr name="value" format="string"/>
+        <attr name="label" format="string"/>
+        <attr name="hint" format="string"/>
+        <attr name="isValid" format="boolean"/>
+        <attr name="helperText" format="string"/>
+        <attr name="errorText" format="string"/>
+        <attr name="textLength" format="integer"/>
+    </declare-styleable>
+
+</resources>
